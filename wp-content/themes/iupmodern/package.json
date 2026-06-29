@@ -1,0 +1,17 @@
+{
+  "name": "iupmodern",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx @tailwindcss/cli -i ./src/input.css -o ./assets/css/app.css --watch",
+    "build": "npx @tailwindcss/cli -i ./src/input.css -o ./assets/css/app.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.0",
+    "tailwindcss": "^4.1.0"
+  },
+  "dependencies": {
+    "lucide": "^1.20.0",
+    "tailwind-animations": "^1.0.1"
+  }
+}
