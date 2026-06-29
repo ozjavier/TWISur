@@ -15,59 +15,22 @@
               Instituto Universitario para la Región Sur de Puebla. Formando
               líderes con excelencia internacional.
             </p>
-            <div class="flex space-x-4">
-              <!-- Facebook -->
-              <a
-                href="#"
-                aria-label="Facebook"
-                class="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-800 hover:text-up-green hover:border-up-green/40 transition-all"
-              >
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                </svg>
-              </a>
-              <!-- Instagram -->
-              <a
-                href="#"
-                aria-label="Instagram"
-                class="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-800 hover:text-up-green hover:border-up-green/40 transition-all"
-              >
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
-                </svg>
-              </a>
-              <!-- TikTok -->
-              <a
-                href="#"
-                aria-label="TikTok"
-                class="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-800 hover:text-up-green hover:border-up-green/40 transition-all"
-              >
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.74a4.85 4.85 0 0 1-1.01-.05z"/>
-                </svg>
-              </a>
-              <!-- X -->
-              <a
-                href="#"
-                aria-label="X"
-                class="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-800 hover:text-up-green hover:border-up-green/40 transition-all"
-              >
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.25 2.25h6.988l4.265 5.638 4.741-5.638Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/>
-                </svg>
-              </a>
-            </div>
+            <?php
+            iup_render_social_links( array(
+                'wrapper_class' => 'flex space-x-4',
+                'link_class'    => 'w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-800 hover:text-up-green hover:border-up-green/40 transition-all',
+                'icon_class'    => 'w-5 h-5',
+            ) );
+            ?>
           </div>
 
           <!-- Nav -->
           <div>
-            <h4 class="text-lg font-semibold text-slate-900 mb-6">Navega</h4>
+            <h4 class="text-lg font-semibold text-up-blue-dark mb-6">Navega</h4>
             <ul class="space-y-2">
               <li>
                 <a
-                  href="#"
+                  href="https://iup-sur.edu.mx/"
                   class="text-base text-slate-800 hover:text-up-green transition-colors"
                 >
                   Inicio
@@ -75,7 +38,7 @@
               </li>
               <li>
                 <a
-                  href="#conocenos"
+                  href="https://iup-sur.edu.mx/conocenos/"
                   class="text-base text-slate-800 hover:text-up-green transition-colors"
                 >
                   Conócenos
@@ -83,7 +46,7 @@
               </li>
               <li>
                 <a
-                  href="#oferta"
+                  href="https://iup-sur.edu.mx/#Programas"
                   class="text-base text-slate-800 hover:text-up-green transition-colors"
                 >
                   Oferta Educativa
@@ -91,15 +54,7 @@
               </li>
               <li>
                 <a
-                  href="#servicios"
-                  class="text-base text-slate-800 hover:text-up-green transition-colors"
-                >
-                  Servicios
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#contacto"
+                  href="https://iup-sur.edu.mx/contacto/"
                   class="text-base text-slate-800 hover:text-up-green transition-colors"
                 >
                   Contacto
@@ -110,31 +65,38 @@
 
           <!-- Contact -->
           <div id="contacto">
-            <h4 class="text-lg font-semibold text-slate-900 mb-6">Contacto</h4>
-            <ul class="space-y-2">
-              <li class="flex items-start gap-3 text-base text-slate-800">
-                <i
-                  data-lucide="map-pin"
-                  class="w-5 h-5 text-up-blue shrink-0 mt-0.5"
-                  stroke-width="1.5"
-                ></i>
-                <span class="">Atlixco, Puebla, México.</span>
-              </li>
-              <li class="flex items-center gap-3 text-base text-slate-800">
-                <i
-                  data-lucide="phone"
-                  class="w-5 h-5 text-up-blue shrink-0"
-                  stroke-width="1.5"
-                ></i>
-                <span class="">+52 244 144 9783</span>
-              </li>
+            <h4 class="text-lg font-semibold text-up-blue-dark mb-6">Contacto</h4>
+              <ul class="space-y-2">
+                <?php if ( iup_contact( 'address' ) ) : ?>
+                <li class="flex items-start gap-3 text-base text-slate-800">
+                  <i data-lucide="map-pin" class="w-5 h-5 text-up-blue shrink-0 mt-0.5" stroke-width="1.5"></i>
+                  <span><?php echo nl2br( esc_html( iup_contact( 'address' ) ) ); ?></span>
+                </li>
+                <?php endif; ?>
 
-            </ul>
+                <?php if ( iup_contact( 'phone' ) ) : ?>
+                <li class="flex items-center gap-3 text-base text-slate-800">
+                  <i data-lucide="phone" class="w-5 h-5 text-up-blue shrink-0" stroke-width="1.5"></i>
+                  <a href="tel:<?php echo esc_attr( preg_replace( '/[^\d+]/', '', iup_contact( 'phone' ) ) ); ?>" class="hover:text-up-blue transition-colors">
+                    <?php echo esc_html( iup_contact( 'phone' ) ); ?>
+                  </a>
+                </li>
+                <?php endif; ?>
+
+                <?php if ( iup_whatsapp_url() ) : ?>
+                <li class="flex items-center gap-3 text-base text-slate-800">
+                  <?php echo iup_whatsapp_svg( 'w-5 h-5 text-up-blue shrink-0 fill-current' ); ?>
+                  <a href="<?php echo esc_url( iup_whatsapp_url() ); ?>" target="_blank" rel="noopener noreferrer" class="hover:text-up-blue transition-colors">
+                    Contactar vía WhatsApp
+                  </a>
+                </li>
+                <?php endif; ?>
+              </ul>
           </div>
 
           <!-- Certs -->
           <div>
-            <h4 class="text-lg font-semibold text-slate-900 mb-6">
+            <h4 class="text-lg font-semibold text-up-blue-dark mb-6">
               Certificaciones
             </h4>
             <div
@@ -171,6 +133,12 @@
             >
               Términos y condiciones
             </a>
+            <a
+              href="https://iup-sur.edu.mx/costos-iup/"
+              class="text-sm text-slate-500 hover:text-slate-900 transition-colors"
+            >
+              Costos IUP
+            </a>            
           </div>
         </div>
       </div>

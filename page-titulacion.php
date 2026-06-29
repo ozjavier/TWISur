@@ -38,7 +38,7 @@
         <div class="text-center max-w-3xl mx-auto mb-14 lg:mb-20">
             <h2 class="text-up-blue text-base font-medium tracking-tight mb-3 uppercase">Modalidades</h2>
             <h3 class="text-3xl md:text-4xl font-semibold text-[#050b14] tracking-tight mb-3 lg:mb-6">Elige el camino que mejor se adapte a ti</h3>
-            <p class="text-lg text-gray-600 font-normal">Contamos con múltiples alternativas para que concluyas esta etapa de la manera que resalte tus fortalezas y objetivos profesionales.</p>
+            <p class="text-lg text-gray-800 font-normal">Contamos con múltiples alternativas para que concluyas esta etapa de la manera que resalte tus fortalezas y objetivos profesionales.</p>
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -49,7 +49,7 @@
                     <i data-lucide="award" class="w-7 h-7"></i>
                 </div>
                 <h4 class="text-xl font-medium text-[#050b14] tracking-tight mb-4">Titulación por promedio</h4>
-                <p class="text-lg text-gray-600 font-normal mt-auto">Promedio mínimo general de 9.0 sin haber presentado recursamientos.</p>
+                <p class="text-lg text-gray-800 font-normal mt-auto">Promedio mínimo general de 9.0 sin haber presentado recursamientos.</p>
             </div>
 
             <!-- Option 2 -->
@@ -59,7 +59,7 @@
                     <i data-lucide="file-text" class="w-7 h-7"></i>
                 </div>
                 <h4 class="text-xl font-medium text-[#050b14] tracking-tight mb-4">Examen general de conocimientos</h4>
-                <p class="text-lg text-gray-600 font-normal mt-auto">Evaluación integral de los conocimientos adquiridos durante toda la carrera.</p>
+                <p class="text-lg text-gray-800 font-normal mt-auto">Evaluación integral de los conocimientos adquiridos durante toda la carrera.</p>
             </div>
 
             <!-- Option 3 -->
@@ -69,7 +69,7 @@
                     <i data-lucide="book-open" class="w-7 h-7"></i>
                 </div>
                 <h4 class="text-xl font-medium text-[#050b14] tracking-tight mb-4">Elaboración de tesis</h4>
-                <p class="text-lg text-gray-600 font-normal mt-auto">Investigación académica con defensa formal ante un jurado evaluador.</p>
+                <p class="text-lg text-gray-800 font-normal mt-auto">Investigación académica con defensa formal ante un jurado evaluador.</p>
             </div>
 
             <!-- Option 4 -->
@@ -79,7 +79,7 @@
                     <i data-lucide="library" class="w-7 h-7"></i>
                 </div>
                 <h4 class="text-xl font-medium text-[#050b14] tracking-tight mb-4">Estudios de maestría</h4>
-                <p class="text-lg text-gray-600 font-normal mt-auto">Inicia tu posgrado; debe ser cursada integralmente en nuestra institución.</p>
+                <p class="text-lg text-gray-800 font-normal mt-auto">Inicia tu posgrado; debe ser cursada integralmente en nuestra institución.</p>
             </div>
         </div>
     </div>
@@ -104,19 +104,19 @@
                 <h2 class="text-3xl md:text-5xl font-semibold tracking-tight mb-6 leading-tight">
                     Universidad certificada internacionalmente en <span class="text-up-green">enseñanza y aprendizaje</span>
                 </h2>
-                <p class="text-lg text-gray-300 mb-8 font-normal leading-relaxed">
+                <p class="text-lg text-slate-200 mb-8 font-normal leading-relaxed">
                     Nuestros programas académicos están diseñados para asegurar tu excelencia profesional. Titularte en nuestra institución es garantía de respaldo y reconocimiento laboral a nivel nacional.
                 </p>
                 <ul class="space-y-4 mb-10">
                     <li class="flex items-center gap-3 text-lg text-gray-200">
-                        <div class="w-6 h-6 rounded-full bg-up-green/20 flex items-center justify-center shrink-0">
-                            <i data-lucide="check" class="w-4 h-4 text-up-green"></i>
+                        <div class="w-6 h-6 rounded-full bg-up-green flex items-center justify-center shrink-0">
+                            <i data-lucide="check" class="w-4 h-4 text-white"></i>
                         </div>
                         Programas actualizados y docentes capacitados
                     </li>
                     <li class="flex items-center gap-3 text-lg text-gray-200">
-                        <div class="w-6 h-6 rounded-full bg-up-green/20 flex items-center justify-center shrink-0">
-                            <i data-lucide="check" class="w-4 h-4 text-up-green"></i>
+                        <div class="w-6 h-6 rounded-full bg-up-green flex items-center justify-center shrink-0">
+                            <i data-lucide="check" class="w-4 h-4 text-white"></i>
                         </div>
                         Cobertura integral durante tu estancia
                     </li>
@@ -149,7 +149,7 @@
                         <i data-lucide="list-checks" class="w-8 h-8 text-white"></i>
                     </div>
                     <h2 class="text-3xl md:text-4xl font-semibold text-[#050b14] tracking-tight mb-6">Requisitos para titulación</h2>
-                    <p class="text-lg text-gray-600 font-normal mb-8">
+                    <p class="text-lg text-gray-800 font-normal mb-8">
                         Asegúrate de cumplir con todos los lineamientos establecidos por la institución para comenzar tu trámite sin contratiempos.
                     </p>
                     <a href="#proceso" class="inline-flex items-center gap-2 text-up-blue font-medium text-lg hover:text-up-green transition-colors group">
@@ -163,8 +163,8 @@
                     <div class="grid gap-4">
                         <!-- Req Item -->
                         <div class="bg-white p-6 rounded-2xl border border-gray-200 flex gap-5 items-start hover:border-up-blue/20 transition-colors shadow-sm">
-                            <div class="w-8 h-8 rounded-full bg-up-green/10 flex items-center justify-center shrink-0 mt-0.5">
-                                <i data-lucide="check" class="w-5 h-5 text-up-green"></i>
+                            <div class="w-8 h-8 rounded-full bg-up-green flex items-center justify-center shrink-0 mt-0.5">
+                                <i data-lucide="check" class="w-5 h-5 text-up-blue-dark"></i>
                             </div>
                             <div>
                                 <h4 class="text-xl font-medium text-[#050b14] mb-1">Plan de estudios al 100%</h4>
@@ -174,8 +174,8 @@
                         
                         <!-- Req Item -->
                         <div class="bg-white p-6 rounded-2xl border border-gray-200 flex gap-5 items-start hover:border-up-blue/20 transition-colors shadow-sm">
-                            <div class="w-8 h-8 rounded-full bg-up-green/10 flex items-center justify-center shrink-0 mt-0.5">
-                                <i data-lucide="check" class="w-5 h-5 text-up-green"></i>
+                            <div class="w-8 h-8 rounded-full bg-up-green flex items-center justify-center shrink-0 mt-0.5">
+                                <i data-lucide="check" class="w-5 h-5 text-up-blue-dark"></i>
                             </div>
                             <div>
                                 <h4 class="text-xl font-medium text-[#050b14] mb-1">Libre de adeudos</h4>
@@ -185,8 +185,8 @@
 
                         <!-- Req Item -->
                         <div class="bg-white p-6 rounded-2xl border border-gray-200 flex gap-5 items-start hover:border-up-blue/20 transition-colors shadow-sm">
-                            <div class="w-8 h-8 rounded-full bg-up-green/10 flex items-center justify-center shrink-0 mt-0.5">
-                                <i data-lucide="check" class="w-5 h-5 text-up-green"></i>
+                            <div class="w-8 h-8 rounded-full bg-up-green flex items-center justify-center shrink-0 mt-0.5">
+                                <i data-lucide="check" class="w-5 h-5 text-up-blue-dark"></i>
                             </div>
                             <div>
                                 <h4 class="text-xl font-medium text-[#050b14] mb-1">Pago de titulación</h4>
@@ -196,8 +196,8 @@
 
                         <!-- Req Item -->
                         <div class="bg-white p-6 rounded-2xl border border-gray-200 flex gap-5 items-start hover:border-up-blue/20 transition-colors shadow-sm">
-                            <div class="w-8 h-8 rounded-full bg-up-green/10 flex items-center justify-center shrink-0 mt-0.5">
-                                <i data-lucide="check" class="w-5 h-5 text-up-green"></i>
+                            <div class="w-8 h-8 rounded-full bg-up-green flex items-center justify-center shrink-0 mt-0.5">
+                                <i data-lucide="check" class="w-5 h-5 text-up-blue-dark"></i>
                             </div>
                             <div>
                                 <h4 class="text-xl font-medium text-[#050b14] mb-1">Documentación oficial</h4>
@@ -207,8 +207,8 @@
 
                         <!-- Req Item -->
                         <div class="bg-white p-6 rounded-2xl border border-gray-200 flex gap-5 items-start hover:border-up-blue/20 transition-colors shadow-sm">
-                            <div class="w-8 h-8 rounded-full bg-up-green/10 flex items-center justify-center shrink-0 mt-0.5">
-                                <i data-lucide="check" class="w-5 h-5 text-up-green"></i>
+                            <div class="w-8 h-8 rounded-full bg-up-green flex items-center justify-center shrink-0 mt-0.5">
+                                <i data-lucide="check" class="w-5 h-5 text-up-blue-dark"></i>
                             </div>
                             <div>
                                 <h4 class="text-xl font-medium text-[#050b14] mb-1">Prácticas y Servicio Social</h4>
@@ -218,8 +218,8 @@
 
                         <!-- Req Item -->
                         <div class="bg-white p-6 rounded-2xl border border-gray-200 flex gap-5 items-start hover:border-up-blue/20 transition-colors shadow-sm">
-                            <div class="w-8 h-8 rounded-full bg-up-green/10 flex items-center justify-center shrink-0 mt-0.5">
-                                <i data-lucide="check" class="w-5 h-5 text-up-green"></i>
+                            <div class="w-8 h-8 rounded-full bg-up-green flex items-center justify-center shrink-0 mt-0.5">
+                                <i data-lucide="check" class="w-5 h-5 text-up-blue-dark"></i>
                             </div>
                             <div>
                                 <h4 class="text-xl font-medium text-[#050b14] mb-1">Modalidad seleccionada</h4>
@@ -237,7 +237,7 @@
     <div class="max-w-7xl mx-auto px-4 lg:px-8">
         <div class="text-center mb-20">
             <h2 class="text-3xl md:text-5xl font-semibold tracking-tight mb-6">Proceso de titulación</h2>
-            <p class="text-lg text-gray-300 max-w-2xl mx-auto font-normal">Sigue estos 5 sencillos pasos para formalizar la culminación de tus estudios universitarios.</p>
+            <p class="text-lg text-slate-200 max-w-2xl mx-auto font-normal">Sigue estos 5 sencillos pasos para formalizar la culminación de tus estudios universitarios.</p>
         </div>
 
         <div class="relative">
@@ -303,55 +303,55 @@
 </section>
 
     <!-- FAQ Section -->
-    <section class="py-14 lg:py-16 bg-white">
-        <div class="max-w-3xl mx-auto px-4 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-[#050b14] mb-4">Preguntas frecuentes</h2>
-                <p class="text-lg text-gray-600 font-normal">Resolvemos las dudas más comunes sobre el proceso administrativo.</p>
-            </div>
-
-            <div class="space-y-4">
-                <!-- FAQ 1 -->
-                <details class="group bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden [&_summary::-webkit-details-marker]:hidden">
-                    <summary class="flex items-center justify-between cursor-pointer p-6 bg-white group-hover:bg-gray-50 transition-colors">
-                        <span class="text-lg font-medium text-[#050b14]">¿Cuánto tiempo toma el proceso de titulación?</span>
-                        <span class="ml-4 flex-shrink-0 text-gray-200 group-open:text-up-blue group-open:rotate-180 transition-transform duration-300">
-                            <i data-lucide="chevron-down" class="w-5 h-5"></i>
-                        </span>
-                    </summary>
-                    <div class="p-6 pt-0 text-base text-gray-600 font-normal bg-gray-50 border-t border-gray-100">
-                        El tiempo puede variar dependiendo de la modalidad elegida. Generalmente, una vez entregada toda la documentación y aprobado el método (ej. tesis o examen), los trámites administrativos ante las autoridades educativas toman entre 3 a 6 meses.
-                    </div>
-                </details>
-
-                <!-- FAQ 2 -->
-                <details class="group bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden [&_summary::-webkit-details-marker]:hidden">
-                    <summary class="flex items-center justify-between cursor-pointer p-6 bg-white group-hover:bg-gray-50 transition-colors">
-                        <span class="text-lg font-medium text-[#050b14]">¿Cuál es el costo del trámite de titulación?</span>
-                        <span class="ml-4 flex-shrink-0 text-gray-200 group-open:text-up-blue group-open:rotate-180 transition-transform duration-300">
-                            <i data-lucide="chevron-down" class="w-5 h-5"></i>
-                        </span>
-                    </summary>
-                    <div class="p-6 pt-0 text-base text-gray-600 font-normal bg-gray-50 border-t border-gray-100">
-                        Los costos se actualizan periódicamente y dependen de los aranceles vigentes. Te invitamos a acercarte al área de finanzas o cajas de la universidad para obtener el costo exacto del paquete de titulación actual.
-                    </div>
-                </details>
-
-                <!-- FAQ 3 -->
-                <details class="group bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden [&_summary::-webkit-details-marker]:hidden">
-                    <summary class="flex items-center justify-between cursor-pointer p-6 bg-white group-hover:bg-gray-50 transition-colors">
-                        <span class="text-lg font-medium text-[#050b14]">¿Puedo iniciar el trámite si aún debo mi servicio social?</span>
-                        <span class="ml-4 flex-shrink-0 text-gray-200 group-open:text-up-blue group-open:rotate-180 transition-transform duration-300">
-                            <i data-lucide="chevron-down" class="w-5 h-5"></i>
-                        </span>
-                    </summary>
-                    <div class="p-6 pt-0 text-base text-gray-600 font-normal bg-gray-50 border-t border-gray-100">
-                        No. Uno de los requisitos obligatorios para iniciar cualquier trámite de titulación es contar con la carta de liberación tanto de prácticas profesionales como de servicio social.
-                    </div>
-                </details>
-            </div>
+<section class="py-12 px-6 bg-white">
+    <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-semibold tracking-tight text-[#171269] mb-4">Preguntas frecuentes</h2>
+            <p class="text-lg text-gray-800 ">Resolvemos las dudas más comunes sobre el proceso de titulación.</p>
         </div>
-    </section>
+
+        <div class="space-y-4">
+            <!-- FAQ Item 1 -->
+            <details class="group border border-gray-200 rounded-2xl bg-gray-50 hover:bg-gray-100/50 transition-colors [&_summary::-webkit-details-marker]:hidden">
+                <summary class="flex cursor-pointer items-center justify-between gap-1.5 p-6 font-medium text-[#050b14]">
+                    <span class="text-lg">¿Cuánto tiempo toma el proceso de titulación?</span>
+                    <div class="bg-white p-1.5 rounded-full border border-gray-200 group-open:bg-[#171269] group-open:border-[#171269] group-open:text-white transition-colors">
+                        <i data-lucide="chevron-down" stroke-width="1.5" class="w-5 h-5 transition duration-300 group-open:-rotate-180"></i>
+                    </div>
+                </summary>
+                <div class="px-6 pb-6 text-gray-800  text-lg leading-relaxed">
+                    <p>El tiempo puede variar dependiendo de la modalidad elegida. Generalmente, una vez entregada toda la documentación y aprobado el método (ej. tesis o examen), los trámites administrativos ante las autoridades educativas toman entre 3 a 6 meses.</p>
+                </div>
+            </details>
+
+            <!-- FAQ Item 2 -->
+            <details class="group border border-gray-200 rounded-2xl bg-gray-50 hover:bg-gray-100/50 transition-colors [&_summary::-webkit-details-marker]:hidden">
+                <summary class="flex cursor-pointer items-center justify-between gap-1.5 p-6 font-medium text-[#050b14]">
+                    <span class="text-lg">¿Cuál es el costo del trámite de titulación?</span>
+                    <div class="bg-white p-1.5 rounded-full border border-gray-200 group-open:bg-[#171269] group-open:border-[#171269] group-open:text-white transition-colors">
+                        <i data-lucide="chevron-down" stroke-width="1.5" class="w-5 h-5 transition duration-300 group-open:-rotate-180"></i>
+                    </div>
+                </summary>
+                <div class="px-6 pb-6 text-gray-800  text-lg leading-relaxed">
+                    <p>Los costos se actualizan periódicamente y dependen de los aranceles vigentes. Te invitamos a acercarte al área de finanzas o cajas de la universidad para obtener el costo exacto del paquete de titulación actual.</p>
+                </div>
+            </details>
+
+            <!-- FAQ Item 3 -->
+            <details class="group border border-gray-200 rounded-2xl bg-gray-50 hover:bg-gray-100/50 transition-colors [&_summary::-webkit-details-marker]:hidden">
+                <summary class="flex cursor-pointer items-center justify-between gap-1.5 p-6 font-medium text-[#050b14]">
+                    <span class="text-lg">¿Puedo iniciar el trámite si aún debo mi servicio social?</span>
+                    <div class="bg-white p-1.5 rounded-full border border-gray-200 group-open:bg-[#171269] group-open:border-[#171269] group-open:text-white transition-colors">
+                        <i data-lucide="chevron-down" stroke-width="1.5" class="w-5 h-5 transition duration-300 group-open:-rotate-180"></i>
+                    </div>
+                </summary>
+                <div class="px-6 pb-6 text-gray-800  text-lg leading-relaxed">
+                    <p>No. Uno de los requisitos obligatorios para iniciar cualquier trámite de titulación es contar con la carta de liberación tanto de prácticas profesionales como de servicio social.</p>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
 
 
 

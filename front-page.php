@@ -1,13 +1,19 @@
 <?php get_header(); ?>
+<?php
+// Extraer las variables del customizer con un fallback a los archivos por defecto del tema
+$hero_video_url = get_theme_mod( 'iup_hero_video_url', get_theme_file_uri( '/assets/video/preset-home.mp4' ) );
+$hero_video_poster = get_theme_mod( 'iup_hero_video_poster', get_theme_file_uri( '/assets/img/hero-poster.jpg' ) );
+?>
 
 <section class=" isolate overflow-hidden  bg-up-blue-dark">
   <div class="aspect-video mx-auto w-full min-h-[640px]  max-h-[75vh] max-w-[2560px] relative flex items-end">
+  
   <!-- 1 · VIDEO -->
   <video
     class="absolute  inset-0 w-full h-full object-cover object-[50%_28%]"
     autoplay muted loop playsinline preload="metadata"
-    poster="<?php echo esc_url( get_theme_file_uri( '/assets/img/hero-poster.jpg' ) ); ?>">
-    <source src="<?php echo esc_url( get_theme_file_uri( '/assets/video/preset-home.mp4' ) ); ?>" type="video/mp4">
+    poster="<?php echo esc_url( $hero_video_poster ); ?>">
+    <source src="<?php echo esc_url( $hero_video_url ); ?>" type="video/mp4">
   </video>
 
   <!-- 2 · OVERLAYS — dejan ver el video y protegen el texto -->
@@ -82,7 +88,7 @@
   </div>
 </section>
 
-<section class="relative z-20 py-7 lg:-mt-24 xl:-mt-17 mb-0 lg:-mb-87 lg:bg-transparent bg-white">
+<section class="relative z-20 py-7 lg:-mt-24 xl:-mt-17 mb-0 lg:-mb-87 lg:bg-transparent bg-white" id="Programas">
 
   <style>
     /* ===== Features · slider <1024px / grid ≥1024px ===== */
@@ -159,7 +165,7 @@
               <h3 class="text-xl font-semibold text-[#00103e] tracking-tight mb-3 group-hover:text-up-green transition-colors relative z-10">
                 Educación de calidad
               </h3>
-              <p class="text-lg text-slate-600 font-light relative z-10">
+              <p class="text-lg text-slate-800 font-light relative z-10">
                 Programas actualizados y docentes capacitados para asegurar tu
                 excelencia profesional.
               </p>
@@ -177,7 +183,7 @@
               <h3 class="text-xl font-semibold text-white tracking-tight mb-3 group-hover:text-blue-400 transition-colors relative z-10">
                 Seguro IUP-SUR
               </h3>
-              <p class="text-lg text-slate-300 font-light relative z-10">
+              <p class="text-lg text-slate-100 font-light relative z-10">
                 Protegemos a nuestra comunidad con cobertura integral durante su
                 estancia académica.
               </p>
@@ -195,7 +201,7 @@
               <h3 class="text-xl font-semibold text-[#00103e] tracking-tight mb-3 group-hover:text-up-green transition-colors relative z-10">
                 Oferta académica
               </h3>
-              <p class="text-lg text-slate-600 font-light relative z-10">
+              <p class="text-lg text-slate-800 font-light relative z-10">
                 Más de 13 programas académicos entre licenciaturas y maestrías
                 diseñados para el futuro.
               </p>
@@ -219,43 +225,48 @@
   </div>
 
   <script>
-    /* Inicializa el slider SOLO por debajo de 1024px (1 carta <768, 2 cartas
-       768–1023) y lo destruye en desktop, donde el track vuelve a ser grid.
-       Init dedicado: el global de ofertas apunta a .oferta-slider, no choca. */
+    /* Inicializa el slider de características (features) para que funcione en 
+       todas las resoluciones, ajustando la cantidad de tarjetas visibles y a 
+       deslizar según el ancho de la pantalla. */
     (function () {
       function initFeatures() {
-          console.log("[features] BlazeSlider:", typeof BlazeSlider, "readyState:", document.readyState);
+        console.log("[features] BlazeSlider:", typeof BlazeSlider, "readyState:", document.readyState);
 
         if (typeof BlazeSlider === "undefined") return;
         var el = document.querySelector(".features-slider");
-        if (!el) return;
+        
+        // Prevenir doble inicialización
+        if (!el || el.dataset.blazeInit === "1") return;
+        el.dataset.blazeInit = "1";
 
-        var instance = null;
-        var mq = window.matchMedia("(max-width: 1023px)");
-
-        function sync() {
-          if (mq.matches && !instance) {
-            instance = new BlazeSlider(el, {
-              all: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                slideGap: "1rem",
-                loop: true,
-                enableAutoplay: false,
-                transitionDuration: 400,
-              },
-              "(min-width: 768px)": { slidesToShow: 2 },
-            });
-            if (typeof lucide !== "undefined") lucide.createIcons();
-          } else if (!mq.matches && instance) {
-            instance.destroy();
-            instance = null;
+        new BlazeSlider(el, {
+          all: {
+            // Configuración base (móvil: < 640px)
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            slideGap: "1rem",
+            loop: true,
+            enableAutoplay: false,
+            transitionDuration: 400,
+          },
+          "(min-width: 640px)": {
+            // Tablets pequeñas
+            slidesToShow: 2,
+            slidesToScroll: 2,
+          },
+          "(min-width: 1024px)": {
+            // Escritorio / Laptops
+            slidesToShow: 3,
+            slidesToScroll: 3,
+          },
+          "(min-width: 1280px)": {
+            // Pantallas grandes
+            slidesToShow: 4,
+            slidesToScroll: 4,
           }
-        }
+        });
 
-        sync();
-        if (mq.addEventListener) mq.addEventListener("change", sync);
-        else mq.addListener(sync);
+        if (typeof lucide !== "undefined") lucide.createIcons();
       }
 
       if (document.readyState !== "loading") initFeatures();
@@ -319,7 +330,7 @@
             <img
               src="<?php echo esc_url( get_theme_file_uri( '/assets/img/carreras/derecho-pg-2.webp' ) ); ?>"
               alt="Estudiante en campus"
-              class="w-full h-full object-cover opacity-80 mix-blend-normal transition-all duration-700"
+              class="w-full h-full object-cover mix-blend-normal transition-all duration-700"
             />
           </div>
         </div>
@@ -379,15 +390,10 @@
 
 <section id="oferta" class="pt-16 bg-white relative overflow-hidden">
 
+  <!-- Estilos y Background SVG (Se mantienen igual) -->
   <style>
-    /* Selección legible en zonas blancas de esta sección.
-       Si ya lo moviste a tu CSS global, puedes quitar este bloque. */
     #oferta ::selection { color: #0f172a; }
     #oferta ::-moz-selection { color: #0f172a; }
-
-    /* Móvil/tablet: las flechas dejan de estar superpuestas a los lados y
-       se alinean en la fila de los bullets. En desktop no aplica, así que
-       tu CSS .oferta-arrow (absoluto) sigue mandando. */
     @media (max-width: 1024px) {
       .oferta-slider .oferta-arrow {
         position: static !important;
@@ -398,326 +404,263 @@
     }
   </style>
 
-  <!-- Fondo decorativo: cruz + halftone denso verde/azul + glows -->
-    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-65">
+  <!-- Fondo decorativo ... (Manten tu div "absolute inset-0 z-0..." tal cual lo tenías) -->
+  <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-65">
+      <!-- (Mantén tus SVGs y glows aquí) -->
+  </div>
 
-      <!-- Glows suaves en esquinas (como el banner UNAM) -->
-      <div class="absolute -top-20 -right-20 w-96 h-96 bg-lime-400/20 rounded-full blur-3xl"></div>
-      <div class="absolute -bottom-24 -left-24 w-[28rem] h-[28rem] bg-blue-500/15 rounded-full blur-3xl"></div>
-      <div class="absolute top-1/3 left-1/2 -translate-x-1/2 w-72 h-72 bg-lime-300/10 rounded-full blur-3xl"></div>
-
-      <svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <!-- Cruz (motivo de la sección) -->
-          <pattern id="cross-oferta" width="60" height="60" patternUnits="userSpaceOnUse">
-            <path d="M 30 25 L 30 35 M 25 30 L 35 30" fill="none" stroke="rgba(163,230,53,1)" stroke-width="1.5"></path>
-          </pattern>
-
-          <!-- Campo de puntos fino -->
-          <pattern id="oferta-dots-base" width="22" height="22" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1.4" fill="rgba(100,116,139,0.35)"></circle>
-          </pattern>
-
-          <!-- Máscara que vacía el centro y deja puntos en los bordes -->
-          <radialGradient id="oferta-center-clear" cx="50%" cy="50%" r="62%">
-            <stop offset="0"    stop-color="white" stop-opacity="0"></stop>
-            <stop offset="0.45" stop-color="white" stop-opacity="0"></stop>
-            <stop offset="0.75" stop-color="white" stop-opacity="0.6"></stop>
-            <stop offset="1"    stop-color="white" stop-opacity="1"></stop>
-          </radialGradient>
-          <mask id="oferta-mask-edges"><rect width="100%" height="100%" fill="url(#oferta-center-clear)"></rect></mask>
-
-          <!-- Halftone verde (arriba-derecha) -->
-          <pattern id="oferta-halftone-green" width="15" height="15" patternUnits="userSpaceOnUse">
-            <circle cx="7.5" cy="7.5" r="2.4" fill="#a3e635"></circle>
-          </pattern>
-          <radialGradient id="oferta-fade-green" cx="100%" cy="0%" r="60%">
-            <stop offset="0" stop-color="white" stop-opacity="1"></stop>
-            <stop offset="1" stop-color="white" stop-opacity="0"></stop>
-          </radialGradient>
-          <mask id="oferta-mask-green"><rect width="100%" height="100%" fill="url(#oferta-fade-green)"></rect></mask>
-
-          <!-- Halftone azul (abajo-izquierda) -->
-          <pattern id="oferta-halftone-blue" width="15" height="15" patternUnits="userSpaceOnUse">
-            <circle cx="7.5" cy="7.5" r="2.4" fill="#2563eb"></circle>
-          </pattern>
-          <radialGradient id="oferta-fade-blue" cx="0%" cy="100%" r="55%">
-            <stop offset="0"   stop-color="white" stop-opacity="1"></stop>
-            <stop offset="0.5" stop-color="white" stop-opacity="0.45"></stop>
-            <stop offset="1"   stop-color="white" stop-opacity="0"></stop>
-          </radialGradient>
-          <mask id="oferta-mask-blue"><rect width="100%" height="100%" fill="url(#oferta-fade-blue)"></rect></mask>
-        </defs>
-
-        <!-- Capa base: puntos solo hacia los bordes (centro despejado) -->
-        <rect width="100%" height="100%" fill="url(#oferta-dots-base)" mask="url(#oferta-mask-edges)" opacity="0.6"></rect>
-        <!-- Cruz, también despejada en el centro -->
-        <rect width="100%" height="100%" fill="url(#cross-oferta)" mask="url(#oferta-mask-edges)" opacity="0.18"></rect>
-        <!-- Halftones de color en esquinas opuestas -->
-        <rect width="100%" height="100%" fill="url(#oferta-halftone-green)" mask="url(#oferta-mask-green)" opacity="0.22"></rect>
-        <rect width="100%" height="100%" fill="url(#oferta-halftone-blue)" mask="url(#oferta-mask-blue)" opacity="0.18"></rect>
-      </svg>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <h2 class="text-base font-semibold tracking-widest text-up-green uppercase mb-1">Descubre tu camino</h2>
+      <h3 class="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">Oferta Académica</h3>
+      <p class="text-[18px] leading-[22px] lg:text-xl text-slate-800 font-light lg:leading-relaxed">
+        Descubre la oferta académica del Instituto Universitario de la Región Sur de Puebla en Atlixco, con licenciaturas y maestrías con RVOE enfocadas a empleabilidad, innovación y desarrollo profesional.
+      </p>
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <h2 class="text-base font-semibold tracking-widest text-up-green uppercase mb-1">
-          Descubre tu camino
-        </h2>
-        <h3 class="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
-          Oferta Académica
-        </h3>
-        <p class="text-[18px] leading-[22px] lg:text-xl text-slate-800 font-light lg:leading-relaxed">
-          Descubre la oferta académica del Instituto Universitario de la
-          Región Sur de Puebla en Atlixco, con licenciaturas y maestrías con
-          RVOE enfocadas a empleabilidad, innovación y desarrollo profesional.
-        </p>
-      </div>
+    <!-- SLIDER DINÁMICO -->
+    <div class="blaze-slider oferta-slider" data-slides-desktop="4" data-slides-tablet="2" data-slides-mobile="1" data-autoplay="true" data-autoplay-interval="5000">
+      <div class="blaze-container">
+        <div class="blaze-track-container">
+<div class="blaze-track">
 
-      <!-- SLIDER -->
-      <div class="blaze-slider oferta-slider"
-           data-slides-desktop="4" data-slides-tablet="2" data-slides-mobile="1"
-           data-autoplay="true" data-autoplay-interval="5000">
-        <div class="blaze-container">
-          <div class="blaze-track-container">
-            <div class="blaze-track">
+            <?php
+            // Consulta para obtener TODAS las carreras para el slider
+            $carreras_query = new WP_Query(array(
+                'post_type'      => 'carrera', // Tu post type
+                'posts_per_page' => -1,
+                'post_status'    => 'publish'
+            ));
 
-              <!-- Card 1 · Ciencias Forenses -->
-              <div class="group relative rounded-xl overflow-hidden bg-white border border-gray-200 hover:border-up-green/50 transition-colors shadow-sm hover:shadow-md">
-                <div class="aspect-[4/3] w-full relative overflow-hidden bg-gray-100">
-                  <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&amp;fit=crop&amp;q=80&amp;w=800" alt="Ciencias Forenses" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div class="absolute top-4 left-4 z-20">
-                    <span class="px-3 py-1.5 bg-up-green text-black text-xs font-medium rounded uppercase tracking-wider">Licenciatura</span>
-                  </div>
-                </div>
-                <div class="p-6">
-                  <h4 class="text-xl font-medium tracking-tight text-[#050b14] mb-2 group-hover:text-up-green transition-colors">Ciencias Forenses</h4>
-                  <p class="text-lg text-gray-500 font-light line-clamp-2">Formación integral en investigación científica y legal.</p>
-                  <div class="mt-6 flex items-center text-base text-[#171269] font-medium">
-                    Ver detalles <i data-lucide="arrow-right" class="w-4 h-4 ml-2" stroke-width="1.5"></i>
-                  </div>
-                </div>
-              </div>
+            if ( $carreras_query->have_posts() ) :
+                $contador = 0; // Inicializamos el contador
 
-              <!-- Card 2 · Derecho -->
-              <div class="group relative rounded-xl overflow-hidden bg-white border border-gray-200 hover:border-[#171269]/50 transition-colors shadow-sm hover:shadow-md">
-                <div class="aspect-[4/3] w-full relative overflow-hidden bg-gray-100">
-                  <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&amp;fit=crop&amp;q=80&amp;w=800" alt="Derecho" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div class="absolute top-4 left-4 z-20">
-                    <span class="px-3 py-1.5 bg-[#171269] text-white text-xs font-medium rounded uppercase tracking-wider">Licenciatura</span>
-                  </div>
-                </div>
-                <div class="p-6">
-                  <h4 class="text-xl font-medium tracking-tight text-[#050b14] mb-2 group-hover:text-[#171269] transition-colors">Derecho</h4>
-                  <p class="text-lg text-gray-500 font-light line-clamp-2">Defensa de la justicia y aplicación de marcos normativos.</p>
-                  <div class="mt-6 flex items-center text-base text-up-green font-medium">
-                    Ver detalles <i data-lucide="arrow-right" class="w-4 h-4 ml-2" stroke-width="1.5"></i>
-                  </div>
-                </div>
-              </div>
+                while ( $carreras_query->have_posts() ) : $carreras_query->the_post(); 
+                    $contador++;
+                    
+                    // Alternar colores por pares e impares
+                    if ( $contador % 2 !== 0 ) {
+                        // Impar: Estilo Azul
+                        $color_fondo_etiqueta = 'bg-[#171269]';
+                        $color_borde_hover    = 'hover:border-[#171269]/50';
+                        $color_texto_hover    = 'group-hover:text-[#171269]';
+                        $color_texto_enlace   = 'text-[#171269]';
+                    } else {
+                        // Par: Estilo Verde
+                        $color_fondo_etiqueta = 'bg-up-green';
+                        $color_borde_hover    = 'hover:border-up-green/50';
+                        $color_texto_hover    = 'group-hover:text-up-green';
+                        $color_texto_enlace   = 'text-up-green';
+                    }
 
-              <!-- Card 3 · Administración de Empresas -->
-              <div class="group relative rounded-xl overflow-hidden bg-white border border-gray-200 hover:border-up-green/50 transition-colors shadow-sm hover:shadow-md">
-                <div class="aspect-[4/3] w-full relative overflow-hidden bg-gray-100">
-                  <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/917d6f93-fb36-439a-8c48-884b67b35381_1600w.jpg" alt="Administración de Empresas" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div class="absolute top-4 left-4 z-20">
-                    <span class="px-3 py-1.5 bg-up-green text-black text-xs font-medium rounded uppercase tracking-wider">Licenciatura</span>
-                  </div>
-                </div>
-                <div class="p-6">
-                  <h4 class="text-xl font-medium tracking-tight text-[#050b14] mb-2 group-hover:text-up-green transition-colors">Administración de Empresas</h4>
-                  <p class="text-lg text-gray-500 font-light line-clamp-2">Liderazgo y gestión estratégica para organizaciones.</p>
-                  <div class="mt-6 flex items-center text-base text-[#171269] font-medium">
-                    Ver detalles <i data-lucide="arrow-right" class="w-4 h-4 ml-2" stroke-width="1.5"></i>
-                  </div>
-                </div>
-              </div>
+                    // 1. Obtener imagen destacada directamente (o un placeholder si no hay)
+                    $imagen_url = get_the_post_thumbnail_url( get_the_ID(), 'large' );
+                    if ( ! $imagen_url ) {
+                        $imagen_url = 'https://via.placeholder.com/800x600?text=Sin+Imagen';
+                    }
 
-              <!-- Card 4 · Intervención Pedagógica · Maestría -->
-              <div class="group relative rounded-xl overflow-hidden bg-white border border-gray-200 hover:border-[#171269]/50 transition-colors shadow-sm hover:shadow-md">
-                <div class="aspect-[4/3] w-full relative overflow-hidden bg-gray-100">
-                  <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&amp;fit=crop&amp;q=80&amp;w=800" alt="Intervención Pedagógica" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div class="absolute top-4 left-4 z-20">
-                    <span class="px-3 py-1.5 bg-[#171269] text-white text-xs font-medium rounded uppercase tracking-wider">Maestría</span>
-                  </div>
-                </div>
-                <div class="p-6">
-                  <h4 class="text-xl font-medium tracking-tight text-[#050b14] mb-2 group-hover:text-[#171269] transition-colors">Intervención Pedagógica</h4>
-                  <p class="text-lg text-gray-500 font-light line-clamp-2">Especialización en desarrollo de estrategias educativas.</p>
-                  <div class="mt-6 flex items-center text-base text-up-green font-medium">
-                    Ver detalles <i data-lucide="arrow-right" class="w-4 h-4 ml-2" stroke-width="1.5"></i>
-                  </div>
-                </div>
-              </div>
+                    // 2. La etiqueta se mantiene como la categoría
+                    $categorias = get_the_category();
+                    $nivel_academico = ! empty( $categorias ) ? $categorias[0]->name : 'Carrera';
 
-              <!-- Card 5 · Criminología -->
-              <div class="group relative rounded-xl overflow-hidden bg-white border border-gray-200 hover:border-up-green/50 transition-colors shadow-sm hover:shadow-md">
-                <div class="aspect-[4/3] w-full relative overflow-hidden bg-gray-100">
-                  <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&amp;fit=crop&amp;q=80&amp;w=800" alt="Criminología" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div class="absolute top-4 left-4 z-20">
-                    <span class="px-3 py-1.5 bg-up-green text-black text-xs font-medium rounded uppercase tracking-wider">Licenciatura</span>
-                  </div>
-                </div>
-                <div class="p-6">
-                  <h4 class="text-xl font-medium tracking-tight text-[#050b14] mb-2 group-hover:text-up-green transition-colors">Criminología</h4>
-                  <p class="text-lg text-gray-500 font-light line-clamp-2">Prevención, análisis del delito y seguridad ciudadana.</p>
-                  <div class="mt-6 flex items-center text-base text-[#171269] font-medium">
-                    Ver detalles <i data-lucide="arrow-right" class="w-4 h-4 ml-2" stroke-width="1.5"></i>
-                  </div>
-                </div>
-              </div>
+                    // 3. Obtener el texto del campo personalizado _descripcion_corta_hero
+                    $descripcion_corta = get_post_meta( get_the_ID(), '_descripcion_corta_hero', true );
+                    ?>
+                    
+                    <div class="group relative rounded-xl overflow-hidden bg-white border border-gray-200 <?php echo $color_borde_hover; ?> transition-colors shadow-sm hover:shadow-md flex flex-col">
+                      <!-- Enlace que cubre toda la tarjeta -->
+                      <a href="<?php the_permalink(); ?>" class="absolute inset-0 z-10"></a>
+                      
+                      <div class="aspect-[3/4] w-full relative overflow-hidden bg-gray-100">
+                        <img src="<?php echo esc_url( $imagen_url ); ?>" alt="<?php the_title_attribute(); ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        <div class="absolute top-4 left-4 z-20">
+                          <span class="px-3 py-1.5 <?php echo $color_fondo_etiqueta; ?> text-white text-xs font-medium rounded uppercase tracking-wider transition-colors"><?php echo esc_html( $nivel_academico ); ?></span>
+                        </div>
+                      </div>
+                      
+                      <div class="p-6 flex-1 flex flex-col">
+                        <h4 class="text-xl font-medium tracking-tight text-[#050b14] mb-2 <?php echo $color_texto_hover; ?> transition-colors"><?php the_title(); ?></h4>
+                        
+                        <!-- Mostramos la descripción corta obtenida del custom field -->
+                        <p class="text-lg text-slate-800 font-light line-clamp-2 mb-4"><?php echo wp_trim_words( $descripcion_corta, 12, '...' ); ?></p>
+                        
+                        <div class="mt-auto flex items-center text-base <?php echo $color_texto_enlace; ?> font-medium transition-colors">
+                          Ver detalles <i data-lucide="arrow-right" class="w-4 h-4 ml-2" stroke-width="1.5"></i>
+                        </div>
+                      </div>
+                    </div>
 
-              <!-- Card 6 · Psicología -->
-              <div class="group relative rounded-xl overflow-hidden bg-white border border-gray-200 hover:border-[#171269]/50 transition-colors shadow-sm hover:shadow-md">
-                <div class="aspect-[4/3] w-full relative overflow-hidden bg-gray-100">
-                  <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&amp;fit=crop&amp;q=80&amp;w=800" alt="Psicología" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div class="absolute top-4 left-4 z-20">
-                    <span class="px-3 py-1.5 bg-[#171269] text-white text-xs font-medium rounded uppercase tracking-wider">Licenciatura</span>
-                  </div>
-                </div>
-                <div class="p-6">
-                  <h4 class="text-xl font-medium tracking-tight text-[#050b14] mb-2 group-hover:text-[#171269] transition-colors">Psicología</h4>
-                  <p class="text-lg text-gray-500 font-light line-clamp-2">Comprensión del comportamiento y bienestar humano.</p>
-                  <div class="mt-6 flex items-center text-base text-up-green font-medium">
-                    Ver detalles <i data-lucide="arrow-right" class="w-4 h-4 ml-2" stroke-width="1.5"></i>
-                  </div>
-                </div>
-              </div>
+                <?php 
+                endwhile; 
+                wp_reset_postdata(); 
+            endif; 
+            ?>
 
-              <!-- Card 7 · Enfermería -->
-              <div class="group relative rounded-xl overflow-hidden bg-white border border-gray-200 hover:border-up-green/50 transition-colors shadow-sm hover:shadow-md">
-                <div class="aspect-[4/3] w-full relative overflow-hidden bg-gray-100">
-                  <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&amp;fit=crop&amp;q=80&amp;w=800" alt="Enfermería" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div class="absolute top-4 left-4 z-20">
-                    <span class="px-3 py-1.5 bg-up-green text-black text-xs font-medium rounded uppercase tracking-wider">Licenciatura</span>
-                  </div>
-                </div>
-                <div class="p-6">
-                  <h4 class="text-xl font-medium tracking-tight text-[#050b14] mb-2 group-hover:text-up-green transition-colors">Enfermería</h4>
-                  <p class="text-lg text-gray-500 font-light line-clamp-2">Cuidado integral de la salud con vocación de servicio.</p>
-                  <div class="mt-6 flex items-center text-base text-[#171269] font-medium">
-                    Ver detalles <i data-lucide="arrow-right" class="w-4 h-4 ml-2" stroke-width="1.5"></i>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Card 8 · Educación · Maestría -->
-              <div class="group relative rounded-xl overflow-hidden bg-white border border-gray-200 hover:border-[#171269]/50 transition-colors shadow-sm hover:shadow-md">
-                <div class="aspect-[4/3] w-full relative overflow-hidden bg-gray-100">
-                  <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/917d6f93-fb36-439a-8c48-884b67b35381_1600w.jpg" alt="Maestría en Educación" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div class="absolute top-4 left-4 z-20">
-                    <span class="px-3 py-1.5 bg-[#171269] text-white text-xs font-medium rounded uppercase tracking-wider">Maestría</span>
-                  </div>
-                </div>
-                <div class="p-6">
-                  <h4 class="text-xl font-medium tracking-tight text-[#050b14] mb-2 group-hover:text-[#171269] transition-colors">Educación</h4>
-                  <p class="text-lg text-gray-500 font-light line-clamp-2">Innovación docente y liderazgo en sistemas educativos.</p>
-                  <div class="mt-6 flex items-center text-base text-up-green font-medium">
-                    Ver detalles <i data-lucide="arrow-right" class="w-4 h-4 ml-2" stroke-width="1.5"></i>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- Controles: un solo par de flechas + paginación.
-               Desktop: las flechas quedan superpuestas a los lados (CSS .oferta-arrow).
-               Móvil/tablet: el CSS de la cabecera las pone inline, junto a los bullets. -->
-          <div class="oferta-controls flex items-center justify-center gap-4 mt-5">
-            <button class="blaze-prev oferta-arrow oferta-arrow--prev" aria-label="Anterior">
-              <i data-lucide="chevron-left" class="w-5 h-5" stroke-width="2"></i>
-            </button>
-            <div class="blaze-pagination"></div>
-            <button class="blaze-next oferta-arrow oferta-arrow--next" aria-label="Siguiente">
-              <i data-lucide="chevron-right" class="w-5 h-5" stroke-width="2"></i>
-            </button>
           </div>
         </div>
-      </div>
 
-      <!-- UNAM Incorporation Banner -->
-      <div class="mt-8 bg-[#00103e] rounded-2xl border border-white/10 relative overflow-hidden shadow-xl">
-        <!-- Glow decorativo -->
-        <div class="absolute top-0 right-0 w-80 h-80 bg-[#171269]/40 rounded-full blur-[80px] pointer-events-none z-0"></div>
-
-        <div class="flex flex-col md:flex-row items-stretch">
-
-          <!-- Columna de texto (en móvil va debajo de la imagen) -->
-          <div class="relative z-10 w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center order-2 md:order-1">
-            <img src="<?php echo esc_url( get_theme_file_uri( 'assets/img/unam-incorporacion.svg' ) ); ?>" class="h-20 md:h-24 max-w-fit w-auto shrink-0 mb-1" alt="Sí somos UNAM">
-
-            <div class="flex items-center gap-5 mb-4">
-              <h3 class="text-3xl md:text-5xl font-semibold tracking-tight text-white">Incorporada a la UNAM</h3>
-            </div>
-
-            <p class="text-gray-200 text-lg font-light mb-2 lg:mb-5">Acuerdo CIREYTG (8553-43). 12/26 del 23/03/26.</p>
-
-            <p class="text-2xl font-medium text-white tracking-tight mb-6">Licenciatura en Pedagogía</p>
-
-            <a href="#" class="inline-flex items-center gap-2 w-fit px-5 py-2.5 rounded-lg bg-up-green text-black font-medium hover:bg-[#47a23e] transition-colors">
-              Conoce la carrera <i data-lucide="arrow-right" class="w-4 h-4" stroke-width="1.5"></i>
-            </a>
-          </div>
-
-          <!-- Columna de imagen (en móvil va primero y más alta) -->
-          <div class="relative w-full md:w-1/2 h-80 sm:h-96 md:h-auto md:min-h-[360px] overflow-hidden order-1 md:order-2">
-            <img src="<?php echo esc_url( get_theme_file_uri( 'assets/img/carreras/pedagogia-pg-home.webp' ) ); ?>"
-                 class="absolute inset-0 w-full h-full object-cover object-[center_50%] scale-105 transition-transform duration-700 hover:scale-110"
-                 alt="Licenciatura en Pedagogía" />
-            <!-- Degradado para fundir la imagen con el panel (izquierda en desktop) -->
-            <div class="hidden md:block absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#00103e] to-transparent pointer-events-none"></div>
-            <!-- Degradado inferior en móvil (la imagen va arriba, funde hacia el texto) -->
-            <div class="md:hidden absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#00103e] to-transparent pointer-events-none"></div>
-          </div>
-
+        <!-- Controles del Slider -->
+        <div class="oferta-controls flex items-center justify-center gap-4 mt-5">
+          <button class="blaze-prev oferta-arrow oferta-arrow--prev" aria-label="Anterior">
+            <i data-lucide="chevron-left" class="w-5 h-5" stroke-width="2"></i>
+          </button>
+          <div class="blaze-pagination"></div>
+          <button class="blaze-next oferta-arrow oferta-arrow--next" aria-label="Siguiente">
+            <i data-lucide="chevron-right" class="w-5 h-5" stroke-width="2"></i>
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- Stats Banner (sin cambios) -->
+    <!-- UNAM BANNER DINÁMICO -->
+    <?php
+    // Consulta para obtener SOLO la carrera que tiene marcado el checkbox "Incorporado UNAM"
+    $unam_query = new WP_Query(array(
+        'post_type'      => 'carrera',
+        'posts_per_page' => 1,
+        'meta_query'     => array(
+            array(
+                'key'   => '_incorporado_unam',
+                'value' => '1',
+                'compare' => '='
+            )
+        )
+    ));
+
+    if ( $unam_query->have_posts() ) :
+        while ( $unam_query->have_posts() ) : $unam_query->the_post();
+            
+            // Obtener la imagen
+            $imagen_unam = get_the_post_thumbnail_url( get_the_ID(), 'large' );
+            if ( ! $imagen_unam ) {
+                $imagen_unam = get_post_meta( get_the_ID(), '_imagen_encabezado', true );
+            }
+    ?>
+    <div class="mt-8 bg-[#00103e] rounded-2xl border border-white/10 relative overflow-hidden shadow-xl">
+      <div class="absolute top-0 right-0 w-80 h-80 bg-[#171269]/40 rounded-full blur-[80px] pointer-events-none z-0"></div>
+
+      <div class="flex flex-col md:flex-row items-stretch">
+        <div class="relative z-10 w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center order-2 md:order-1">
+          <img src="<?php echo esc_url( get_theme_file_uri( 'assets/img/unam-incorporacion.svg' ) ); ?>" class="h-20 md:h-24 max-w-fit w-auto shrink-0 mb-1" alt="Sí somos UNAM">
+
+          <div class="flex items-center gap-5 mb-4">
+            <h3 class="text-3xl md:text-5xl font-semibold tracking-tight text-white">Incorporada a la UNAM</h3>
+          </div>
+
+          <!-- Puedes mostrar el RVOE u otro dato dinámico del post aquí si lo deseas -->
+          <?php $rvoe = get_post_meta( get_the_ID(), '_rvoe', true ); ?>
+          <p class="text-gray-200 text-lg font-light mb-2 lg:mb-5">
+             <?php echo !empty($rvoe) ? 'RVOE / Acuerdo: ' . esc_html($rvoe) : 'Acuerdo CIREYTG (8553-43). 12/26 del 23/03/26.'; ?>
+          </p>
+
+          <p class="text-2xl font-medium text-white tracking-tight mb-6"><?php the_title(); ?></p>
+
+          <a href="<?php the_permalink(); ?>" class="inline-flex items-center gap-2 w-fit px-5 py-2.5 rounded-lg bg-up-green text-black font-medium hover:bg-[#47a23e] transition-colors relative z-20">
+            Conoce la carrera <i data-lucide="arrow-right" class="w-4 h-4" stroke-width="1.5"></i>
+          </a>
+        </div>
+
+        <div class="relative w-full md:w-1/2 h-80 sm:h-96 md:h-auto md:min-h-[360px] overflow-hidden order-1 md:order-2">
+          <?php if ( $imagen_unam ) : ?>
+            <img src="<?php echo esc_url( $imagen_unam ); ?>" class="absolute inset-0 w-full h-full object-cover object-[center_50%] scale-105 transition-transform duration-700 hover:scale-110" alt="<?php the_title_attribute(); ?>" />
+          <?php endif; ?>
+          <div class="hidden md:block absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#00103e] to-transparent pointer-events-none"></div>
+          <div class="md:hidden absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#00103e] to-transparent pointer-events-none"></div>
+        </div>
+      </div>
+    </div>
+    <?php 
+        endwhile; 
+        wp_reset_postdata();
+    endif; 
+    ?>
+    <!-- Fin UNAM Banner Dinámico -->
+
+  </div>
+
+  <!-- Stats Banner (Se mantiene igual) -->
     <div class="py-14 mt-0 relative overflow-hidden">
+
       <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMCwwLDAsMC4wNSkiLz48L3N2Zz4=')] opacity-50"></div>
+
       <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+
         <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-4">
+
           <span class="text-up-green">+10 años</span> formando profesionales
+
         </h2>
+
         <p class="text-[18px] leading-[22px] lg:leading-relaxed lg:text-xl text-slate-800 font-light">
+
           No solo fomentamos el crecimiento profesional, sino también personal
+
           en nuestros alumnos. Vive la experiencia IUP que transforma a México.
+
         </p>
+
       </div>
+
     </div>
 
     <script>
+
   (function () {
+
     function initOferta() {
+
       if (typeof BlazeSlider === "undefined") return;
+
       var el = document.querySelector(".oferta-slider");
+
       if (!el || el.dataset.blazeInit === "1") return;   // evita doble init si el global también corre
+
       el.dataset.blazeInit = "1";
 
+
+
       new BlazeSlider(el, {
+
         all: {
+
           slidesToShow: 1,
+
           slidesToScroll: 1,
+
           slideGap: "1.5rem",
+
           loop: true,
+
           enableAutoplay: true,
+
           autoplayInterval: 5000,
+
           stopAutoplayOnInteraction: true,
+
           transitionDuration: 400,
+
         },
+
         "(min-width: 768px)":  { slidesToShow: 2 },
+
         "(min-width: 1024px)": { slidesToShow: 4 },
+
       });
 
+
+
       if (typeof lucide !== "undefined") lucide.createIcons();
+
     }
 
+
+
     if (document.readyState !== "loading") initOferta();
+
     else document.addEventListener("DOMContentLoaded", initOferta);
+
   })();
+
 </script>
 </section>
 
@@ -785,7 +728,7 @@
                     <i data-lucide="eye" class="w-6 h-6 text-up-green" stroke-width="1.5"></i>
                     Visión
                   </h3>
-                  <p class="text-lg text-slate-300 font-light">
+                  <p class="text-lg text-slate-100 font-light">
                     Reconocimiento estatal y nacional por su formación integral
                     basada en excelencia académica, procesos de enseñanza y
                     aprendizaje de vanguardia. Docentes y estudiantes competentes y
@@ -803,7 +746,7 @@
                     <i data-lucide="target" class="w-6 h-6 text-blue-400" stroke-width="1.5"></i>
                     Misión
                   </h3>
-                  <p class="text-lg text-slate-300 font-light">
+                  <p class="text-lg text-slate-100 font-light">
                     Formar profesionales íntegros mediante la implementación de
                     modelos educativos de vanguardia con alto valor humano,
                     consciencia social y compromiso con su comunidad, país y medio
@@ -821,7 +764,7 @@
                     <i data-lucide="heart" class="w-6 h-6 text-up-green" stroke-width="1.5"></i>
                     Valores
                   </h3>
-                  <p class="text-lg text-slate-300 font-light">
+                  <p class="text-lg text-slate-100 font-light">
                     Autenticidad, Honestidad, Solidaridad, Lealtad, Superación,
                     Perseverancia, Equidad e Integridad.
                   </p>
@@ -937,7 +880,7 @@
         </p>
       </div>
       <a
-        href="#contacto"
+        href="#Programas"
         class="whitespace-nowrap px-8 py-4 bg-slate-950 hover:bg-slate-800 text-white text-lg font-medium rounded-full transition-colors flex items-center gap-2"
       >
         Registrarse ahora

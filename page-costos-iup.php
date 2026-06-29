@@ -1,4 +1,35 @@
-<?php get_header(); ?>
+<?php
+/**
+ * Template Name: Costos IUP
+ *
+ * Renderiza dinámicamente los costos administrados desde
+ * wp-admin → "Costos IUP" (módulo del tema: inc/costos.php).
+ */
+
+get_header();
+
+// Datos administrables (con respaldo por si el módulo no estuviera cargado).
+if ( function_exists( 'iupmodern_costos_get_data' ) ) {
+	$iup = iupmodern_costos_get_data();
+} else {
+	$iup = array(
+		'meta'              => array( 'actualizacion' => 'Enero – Abril 2026' ),
+		'colegiaturas'      => array(),
+		'incorporacion_sep' => array( 'cuota' => '1200.00', 'recargo' => '120.00' ),
+		'recargos'          => array( 'dia_limite' => '7', 'recargo_1' => '100.00', 'recargo_2' => '170.00' ),
+		'conceptos_admin'   => array(),
+		'titulacion_lic'    => array(),
+		'titulacion_mtria'  => array(),
+	);
+}
+
+if ( ! function_exists( 'iupmodern_costos_precio' ) ) {
+	function iupmodern_costos_precio( $num ) {
+		$n = (float) str_replace( array( ',', '$', ' ' ), '', (string) $num );
+		return '$' . number_format( $n, 2, '.', ',' );
+	}
+}
+?>
 
 <!-- ===================== HERO ===================== -->
 <section class="bg-up-blue-dark text-white pt-40 pb-20 px-6 relative overflow-hidden">
@@ -14,7 +45,7 @@
     <!-- Badge de vigencia -->
     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs sm:text-sm font-medium mb-6 sm:mb-8 backdrop-blur-sm">
       <span class="flex h-2 w-2 rounded-full bg-up-green"></span>
-      Última actualización: Enero – Abril 2026
+      Última actualización: <?php echo esc_html( $iup['meta']['actualizacion'] ); ?>
     </div>
 
     <h1 class="text-4xl md:text-6xl lg:text-7xl font-semibold text-white tracking-tight mb-6 max-w-4xl mx-auto leading-tight">
@@ -76,109 +107,31 @@
 
       <div class="px-6 sm:px-8 py-6 space-y-10">
 
-        <!-- Grupo: Ciencias Sociales -->
-        <div>
-          <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-widest pb-3 mb-5 border-b border-gray-100">
-            Ciencias Sociales, Jurídicas y Administrativas
-          </h3>
-          <div class="space-y-6">
-            <!-- Programa -->
+        <?php if ( ! empty( $iup['colegiaturas'] ) ) : ?>
+          <?php foreach ( $iup['colegiaturas'] as $grupo ) : ?>
+            <!-- Grupo: <?php echo esc_html( $grupo['grupo'] ); ?> -->
             <div>
-              <p class="text-base font-semibold text-up-text mb-2">Lic. en Derecho</p>
-              <div class="space-y-1.5">
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">2º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,250.00</span></div>
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">5º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,250.00</span></div>
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">8º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,365.00</span></div>
+              <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-widest pb-3 mb-5 border-b border-gray-100">
+                <?php echo esc_html( $grupo['grupo'] ); ?>
+              </h3>
+              <div class="space-y-6">
+                <?php foreach ( $grupo['programas'] as $programa ) : ?>
+                  <!-- Programa -->
+                  <div>
+                    <p class="text-base font-semibold text-up-text mb-2"><?php echo esc_html( $programa['nombre'] ); ?></p>
+                    <div class="space-y-1.5">
+                      <?php foreach ( $programa['filas'] as $fila ) : ?>
+                        <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500"><?php echo esc_html( $fila['label'] ); ?></span><span class="font-semibold text-up-blue whitespace-nowrap"><?php echo esc_html( iupmodern_costos_precio( $fila['precio'] ) ); ?></span></div>
+                      <?php endforeach; ?>
+                    </div>
+                  </div>
+                <?php endforeach; ?>
               </div>
             </div>
-            <div>
-              <p class="text-base font-semibold text-up-text mb-2">Lic. en Criminología</p>
-              <div class="space-y-1.5">
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">2º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,400.00</span></div>
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">5º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,520.00</span></div>
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">8º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,665.00</span></div>
-              </div>
-            </div>
-            <div>
-              <p class="text-base font-semibold text-up-text mb-2">Lic. en Psicología</p>
-              <div class="space-y-1.5">
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">5º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,635.00</span></div>
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">8º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,775.00</span></div>
-              </div>
-            </div>
-            <div>
-              <p class="text-base font-semibold text-up-text mb-2">Lic. en Administración y Contaduría</p>
-              <div class="space-y-1.5">
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">2º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,250.00</span></div>
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">5º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,362.00</span></div>
-              </div>
-            </div>
-            <div>
-              <p class="text-base font-semibold text-up-text mb-2">Lic. en Ciencias Periciales</p>
-              <div class="space-y-1.5">
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">2º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,250.00</span></div>
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">5º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,255.00</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Grupo: Educación -->
-        <div>
-          <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-widest pb-3 mb-5 border-b border-gray-100">
-            Educación
-          </h3>
-          <div class="space-y-6">
-            <div>
-              <p class="text-base font-semibold text-up-text mb-2">Lic. en Educación Inicial</p>
-              <div class="space-y-1.5">
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">2º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,350.00</span></div>
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">5º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,470.00</span></div>
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">8º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,600.00</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Grupo: Creatividad -->
-        <div>
-          <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-widest pb-3 mb-5 border-b border-gray-100">
-            Creatividad, Comunicación y Servicios
-          </h3>
-          <div class="space-y-6">
-            <div>
-              <p class="text-base font-semibold text-up-text mb-2">Lic. en Diseño Gráfico</p>
-              <div class="space-y-1.5">
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">2º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,250.00</span></div>
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">5º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,362.00</span></div>
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">8º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,370.00</span></div>
-              </div>
-            </div>
-            <div>
-              <p class="text-base font-semibold text-up-text mb-2">Lic. en Gastronomía</p>
-              <div class="space-y-1.5">
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">2º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,350.00</span></div>
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">5º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,470.00</span></div>
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">8º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,600.00</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Grupo: Tecnología -->
-        <div>
-          <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-widest pb-3 mb-5 border-b border-gray-100">
-            Tecnología y Datos
-          </h3>
-          <div class="space-y-6">
-            <div>
-              <p class="text-base font-semibold text-up-text mb-2">Lic. en Software y Big Data</p>
-              <div class="space-y-1.5">
-                <div class="flex items-center justify-between gap-4 text-sm"><span class="text-gray-500">2º Cuatrimestre</span><span class="font-semibold text-up-blue whitespace-nowrap">$1,250.00</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
+          <?php endforeach; ?>
+        <?php else : ?>
+          <p class="text-sm text-gray-400">Aún no hay colegiaturas registradas. Agrégalas desde wp-admin → Costos IUP.</p>
+        <?php endif; ?>
 
       </div>
 
@@ -186,9 +139,9 @@
       <div class="px-6 sm:px-8 py-4 border-t border-gray-100 bg-gray-50/60 flex items-start gap-2.5">
         <i data-lucide="info" class="w-4 h-4 text-up-blue shrink-0 mt-0.5" stroke-width="1.5"></i>
         <p class="text-xs text-gray-500 leading-relaxed">
-          <span class="font-semibold text-gray-600">Fecha límite de pago sin recargos:</span> día 7 de cada mes.
-          <span class="text-gray-400">•</span> +$100.00 del día 8 al 14
-          <span class="text-gray-400">•</span> +$170.00 del día 15 al último día del mes.
+          <span class="font-semibold text-gray-600">Fecha límite de pago sin recargos:</span> día <?php echo esc_html( $iup['recargos']['dia_limite'] ); ?> de cada mes.
+          <span class="text-gray-400">•</span> +<?php echo esc_html( iupmodern_costos_precio( $iup['recargos']['recargo_1'] ) ); ?> del día 8 al 14
+          <span class="text-gray-400">•</span> +<?php echo esc_html( iupmodern_costos_precio( $iup['recargos']['recargo_2'] ) ); ?> del día 15 al último día del mes.
         </p>
       </div>
     </div>
@@ -225,11 +178,11 @@
         <div class="divide-y divide-gray-100 border-t border-gray-100">
           <div class="flex items-center justify-between gap-4 py-3">
             <span class="text-sm text-gray-500">Cuota anual</span>
-            <span class="text-sm font-semibold text-up-blue whitespace-nowrap">$1,200.00</span>
+            <span class="text-sm font-semibold text-up-blue whitespace-nowrap"><?php echo esc_html( iupmodern_costos_precio( $iup['incorporacion_sep']['cuota'] ) ); ?></span>
           </div>
           <div class="flex items-center justify-between gap-4 py-3">
             <span class="text-sm text-gray-500">Recargo</span>
-            <span class="text-sm font-semibold text-up-text whitespace-nowrap">+$120.00</span>
+            <span class="text-sm font-semibold text-up-text whitespace-nowrap">+<?php echo esc_html( iupmodern_costos_precio( $iup['incorporacion_sep']['recargo'] ) ); ?></span>
           </div>
         </div>
       </div>
@@ -238,12 +191,9 @@
       <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
         <h3 class="text-lg font-semibold text-up-text tracking-tight mb-4">Otros Conceptos Administrativos</h3>
         <div class="divide-y divide-gray-100 border-t border-gray-100">
-          <div class="flex items-center justify-between gap-4 py-3"><span class="text-sm text-gray-600">Examen Ordinario de 2da Vuelta</span><span class="text-sm font-semibold text-up-blue whitespace-nowrap">$250.00</span></div>
-          <div class="flex items-center justify-between gap-4 py-3"><span class="text-sm text-gray-600">Examen Extraordinario</span><span class="text-sm font-semibold text-up-blue whitespace-nowrap">$500.00</span></div>
-          <div class="flex items-center justify-between gap-4 py-3"><span class="text-sm text-gray-600">Reposición de Credencial</span><span class="text-sm font-semibold text-up-blue whitespace-nowrap">$200.00</span></div>
-          <div class="flex items-center justify-between gap-4 py-3"><span class="text-sm text-gray-600">Constancia Simple</span><span class="text-sm font-semibold text-up-blue whitespace-nowrap">$200.00</span></div>
-          <div class="flex items-center justify-between gap-4 py-3"><span class="text-sm text-gray-600">Constancia con Historial Académico</span><span class="text-sm font-semibold text-up-blue whitespace-nowrap">$250.00</span></div>
-          <div class="flex items-center justify-between gap-4 py-3"><span class="text-sm text-gray-600">Baja y devolución de documentos</span><span class="text-sm font-semibold text-up-blue whitespace-nowrap">$350.00</span></div>
+          <?php foreach ( $iup['conceptos_admin'] as $item ) : ?>
+            <div class="flex items-center justify-between gap-4 py-3"><span class="text-sm text-gray-600"><?php echo esc_html( $item['label'] ); ?></span><span class="text-sm font-semibold text-up-blue whitespace-nowrap"><?php echo esc_html( iupmodern_costos_precio( $item['precio'] ) ); ?></span></div>
+          <?php endforeach; ?>
         </div>
       </div>
 
@@ -317,13 +267,9 @@
           <h4 class="text-xl font-semibold text-up-text tracking-tight">Nivel Licenciatura</h4>
         </div>
         <ul class="divide-y divide-gray-100 relative z-10">
-          <li class="flex items-center justify-between gap-4 py-4 group"><span class="text-base text-gray-700 group-hover:text-up-text transition-colors">Paquete de Titulación</span><span class="text-lg font-semibold text-up-blue whitespace-nowrap">$17,500.00</span></li>
-          <li class="flex items-center justify-between gap-4 py-4 group"><span class="text-base text-gray-700 group-hover:text-up-text transition-colors">Liberación de no adeudos y biblioteca</span><span class="text-lg font-semibold text-up-blue whitespace-nowrap">$1,200.00</span></li>
-          <li class="flex items-center justify-between gap-4 py-4 group"><span class="text-base text-gray-700 group-hover:text-up-text transition-colors">Certificado Parcial</span><span class="text-lg font-semibold text-up-blue whitespace-nowrap">$1,500.00</span></li>
-          <li class="flex items-center justify-between gap-4 py-4 group"><span class="text-base text-gray-700 group-hover:text-up-text transition-colors">Curso Seminario de Tesis</span><span class="text-lg font-semibold text-up-blue whitespace-nowrap">$4,000.00</span></li>
-          <li class="flex items-center justify-between gap-4 py-4 group"><span class="text-base text-gray-700 group-hover:text-up-text transition-colors">Revisión de Proyectos</span><span class="text-lg font-semibold text-up-blue whitespace-nowrap">$2,500.00</span></li>
-          <li class="flex items-center justify-between gap-4 py-4 group"><span class="text-base text-gray-700 group-hover:text-up-text transition-colors">Examen Profesional (Proyecto o Tesis)</span><span class="text-lg font-semibold text-up-blue whitespace-nowrap">$4,000.00</span></li>
-          <li class="flex items-center justify-between gap-4 py-4 group"><span class="text-base text-gray-700 group-hover:text-up-text transition-colors">Examen General de Conocimientos</span><span class="text-lg font-semibold text-up-blue whitespace-nowrap">$5,000.00</span></li>
+          <?php foreach ( $iup['titulacion_lic'] as $item ) : ?>
+            <li class="flex items-center justify-between gap-4 py-4 group"><span class="text-base text-gray-700 group-hover:text-up-text transition-colors"><?php echo esc_html( $item['label'] ); ?></span><span class="text-lg font-semibold text-up-blue whitespace-nowrap"><?php echo esc_html( iupmodern_costos_precio( $item['precio'] ) ); ?></span></li>
+          <?php endforeach; ?>
         </ul>
       </div>
 
@@ -337,11 +283,9 @@
           <h4 class="text-xl font-semibold text-up-text tracking-tight">Nivel Maestría</h4>
         </div>
         <ul class="divide-y divide-gray-100 relative z-10">
-          <li class="flex items-center justify-between gap-4 py-4 group"><span class="text-base text-gray-700 group-hover:text-up-text transition-colors">Paquete de Titulación</span><span class="text-lg font-semibold text-up-blue whitespace-nowrap">$18,000.00</span></li>
-          <li class="flex items-center justify-between gap-4 py-4 group"><span class="text-base text-gray-700 group-hover:text-up-text transition-colors">Liberación de no adeudos y biblioteca</span><span class="text-lg font-semibold text-up-blue whitespace-nowrap">$1,200.00</span></li>
-          <li class="flex items-center justify-between gap-4 py-4 group"><span class="text-base text-gray-700 group-hover:text-up-text transition-colors">Certificado Parcial</span><span class="text-lg font-semibold text-up-blue whitespace-nowrap">$1,500.00</span></li>
-          <li class="flex items-center justify-between gap-4 py-4 group"><span class="text-base text-gray-700 group-hover:text-up-text transition-colors">Curso Seminario de Tesis</span><span class="text-lg font-semibold text-up-blue whitespace-nowrap">$4,000.00</span></li>
-          <li class="flex items-center justify-between gap-4 py-4 group"><span class="text-base text-gray-700 group-hover:text-up-text transition-colors">Examen Profesional en Defensa de Tesis</span><span class="text-lg font-semibold text-up-blue whitespace-nowrap">$4,000.00</span></li>
+          <?php foreach ( $iup['titulacion_mtria'] as $item ) : ?>
+            <li class="flex items-center justify-between gap-4 py-4 group"><span class="text-base text-gray-700 group-hover:text-up-text transition-colors"><?php echo esc_html( $item['label'] ); ?></span><span class="text-lg font-semibold text-up-blue whitespace-nowrap"><?php echo esc_html( iupmodern_costos_precio( $item['precio'] ) ); ?></span></li>
+          <?php endforeach; ?>
         </ul>
       </div>
 
@@ -356,7 +300,7 @@
       <h2 class="text-xl md:text-2xl font-semibold text-up-blue-dark tracking-tight">Estamos aquí para ayudarte</h2>
       <p class="text-up-blue-dark mt-1">Resolvemos tus dudas sobre costos y trámites escolares.</p>
     </div>
-    <a href="#contacto" class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-semibold rounded-xl text-white bg-slate-900 hover:bg-slate-800 transition-colors shadow-sm shrink-0">
+    <a href="https://iup-sur.edu.mx/contacto/" class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-semibold rounded-xl text-white bg-slate-900 hover:bg-slate-800 transition-colors shadow-sm shrink-0">
       Solicita informes
       <i data-lucide="arrow-right" class="w-4 h-4" stroke-width="2"></i>
     </a>

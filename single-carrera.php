@@ -1,17 +1,36 @@
 <?php get_header(); ?>
 
-<!-- ===================== HERO CON VIDEO (igual a front-page) ===================== -->
 <section class="isolate overflow-hidden bg-up-blue-dark">
   <div class="aspect-video mx-auto w-full min-h-[640px] max-h-[80vh] max-w-[2560px] relative flex items-end">
+    
+    <?php
+      // 1. Obtener valores de los custom fields
+      $video_hero        = get_post_meta( get_the_ID(), '_video_hero', true );
+      $imagen_hero       = get_post_meta( get_the_ID(), '_imagen_hero', true );
+      $imagen_encabezado = get_post_meta( get_the_ID(), '_imagen_encabezado', true );
 
-    <!-- 1 · VIDEO -->
-    <video
-      class="absolute inset-0 w-full h-full object-cover object-[50%_35%]"
-      autoplay muted loop playsinline preload="metadata"
-      poster="<?php echo esc_url( get_theme_file_uri( '/assets/img/hero-gastronomia.jpg' ) ); ?>">
-      <!-- Reemplaza por el video real de la carrera -->
-      <source src="<?php echo esc_url( get_theme_file_uri( '/assets/video/preset-home.mp4' ) ); ?>" type="video/mp4">
-    </video>
+      // 2. Definir fallbacks
+      $poster_url = ! empty( $imagen_hero ) ? $imagen_hero : get_theme_file_uri( '/assets/img/hero-gastronomia.jpg' );
+      
+      // Si no hay imagen de encabezado específica, usamos la del poster (hero) como respaldo
+      $img_estatica = ! empty( $imagen_encabezado ) ? $imagen_encabezado : $poster_url;
+    ?>
+    
+    <?php if ( ! empty( $video_hero ) ) : ?>
+      <!-- Mostrar VIDEO si el campo tiene una URL -->
+      <video
+        class="absolute inset-0 w-full h-full object-cover object-[50%_35%]"
+        autoplay muted loop playsinline preload="metadata"
+        poster="<?php echo esc_url( $poster_url ); ?>">
+        <source src="<?php echo esc_url( $video_hero ); ?>" type="video/mp4">
+      </video>
+    <?php else : ?>
+      <!-- Mostrar IMAGEN si no hay video -->
+      <img 
+        src="<?php echo esc_url( $img_estatica ); ?>" 
+        alt="<?php the_title_attribute(); ?>" 
+        class="absolute inset-0 w-full h-full object-cover object-[50%_35%]">
+    <?php endif; ?>
 
     <!-- 2 · OVERLAYS -->
     <div class="absolute inset-0 bg-up-blue-dark/20"></div>
@@ -53,15 +72,45 @@
     <!-- 4 · CONTENIDO -->
     <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 sm:pb-16 lg:pb-20 animate-slide-in-left">
       <div class="max-w-5xl flex flex-col gap-2 lg:gap-6">
+        
+        <?php
+          // Obtener los datos personalizados
+          $t_linea1 = get_post_meta( get_the_ID(), '_titulo_linea_1', true );
+          $t_linea2 = get_post_meta( get_the_ID(), '_titulo_linea_2_verde', true );
+          $t_linea3 = get_post_meta( get_the_ID(), '_titulo_linea_3', true );
+          $desc_hero = get_the_excerpt();
+
+          // Fallbacks: Si no hay líneas de título personalizadas, usa el título normal de WP
+          $has_custom_title = ( $t_linea1 || $t_linea2 || $t_linea3 );
+        ?>
+
         <h1 class="text-3xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-white leading-[37px] lg:leading-[64px] drop-shadow-[0_2px_24px_rgba(0,0,0,0.9)]">
-          Licenciatura en<br>
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-up-green/80 via-up-green/90 to-up-green">Administración de</span><br>
-          Empresas Gastronómicas
+          <?php if ( $has_custom_title ) : ?>
+              
+              <?php if ( ! empty( $t_linea1 ) ) : ?>
+                <?php echo esc_html( $t_linea1 ); ?><br>
+              <?php endif; ?>
+              
+              <?php if ( ! empty( $t_linea2 ) ) : ?>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-up-green/80 via-up-green/90 to-up-green"><?php echo esc_html( $t_linea2 ); ?></span><br>
+              <?php endif; ?>
+              
+              <?php if ( ! empty( $t_linea3 ) ) : ?>
+                <?php echo esc_html( $t_linea3 ); ?>
+              <?php endif; ?>
+
+          <?php else : ?>
+              <!-- Título de respaldo si no llenaron los campos personalizados -->
+              <?php the_title(); ?>
+          <?php endif; ?>
         </h1>
 
+        <?php if ( ! empty( $desc_hero ) ) : ?>
         <p class="text-base md:text-xl text-slate-100 font-light max-w-xl drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]">
-          Fórmate como un líder integral capaz de dirigir, innovar y emprender en el sector gastronómico y de servicios a nivel internacional.
+          <?php echo nl2br( esc_html( $desc_hero ) ); ?>
         </p>
+        <?php endif; ?>
+
       </div>
     </div>
 
@@ -73,40 +122,40 @@
 <!-- ===================== INFO BAR (datos clave, tarjeta traslapada) ===================== -->
 <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-5 sm:-mt-10 relative z-20">
   <div class="bg-up-blue-dark rounded-2xl shadow-lg shadow-black/20 border border-white/10 overflow-hidden">
-    <div class="flex flex-col divide-y divide-white/10
-                sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:divide-y-0
-                px-2 sm:px-6 lg:px-8 sm:py-6 sm:gap-x-12 md:gap-x-20">
+    
+    <!-- He modificado 'divide-y' por 'divide-y sm:divide-y-0' -->
+    <div class="flex flex-col md:flex-row divide-y sm:divide-y-0 md:divide-y-0 px-2 sm:px-6 lg:px-8 sm:py-6 md:gap-x-6 lg:gap-x-12">
 
       <!-- Duración -->
-      <div class="flex items-center gap-4 px-4 py-4 sm:p-0">
+      <div class="flex items-center gap-4 px-4 py-4 sm:p-0 flex-1 min-w-0">
         <span class="w-11 h-11 rounded-xl bg-up-green/10 flex items-center justify-center shrink-0 sm:bg-transparent sm:w-auto sm:h-auto sm:rounded-none">
           <i data-lucide="clock" class="w-6 h-6 sm:w-7 sm:h-7 text-up-green" stroke-width="1.5"></i>
         </span>
-        <div>
+        <div class="min-w-0 flex-1">
           <p class="text-[11px] sm:text-xs text-blue-300/70 uppercase tracking-wider font-semibold">Duración</p>
-          <p class="text-lg font-semibold text-white leading-tight">3 años</p>
+          <p class="text-lg font-semibold text-white leading-tight break-words"><?php echo esc_html( get_post_meta( get_the_ID(), '_duracion', true ) ); ?></p>
         </div>
       </div>
 
       <!-- Modalidad -->
-      <div class="flex items-center gap-4 px-4 py-4 sm:p-0">
+      <div class="flex items-center gap-4 px-4 py-4 sm:p-0 flex-1 min-w-0">
         <span class="w-11 h-11 rounded-xl bg-up-green/10 flex items-center justify-center shrink-0 sm:bg-transparent sm:w-auto sm:h-auto sm:rounded-none">
           <i data-lucide="book-open" class="w-6 h-6 sm:w-7 sm:h-7 text-up-green" stroke-width="1.5"></i>
         </span>
-        <div>
+        <div class="min-w-0 flex-1">
           <p class="text-[11px] sm:text-xs text-blue-300/70 uppercase tracking-wider font-semibold">Modalidad</p>
-          <p class="text-lg font-semibold text-white leading-tight">Escolarizada</p>
+          <p class="text-lg font-semibold text-white leading-tight break-words"><?php echo esc_html( get_post_meta( get_the_ID(), '_modalidad', true ) ); ?></p>
         </div>
       </div>
 
       <!-- Reconocimiento -->
-      <div class="flex items-center gap-4 px-4 py-4 sm:p-0">
+      <div class="flex items-center gap-4 px-4 py-4 sm:p-0 flex-1 min-w-0">
         <span class="w-11 h-11 rounded-xl bg-up-green/10 flex items-center justify-center shrink-0 sm:bg-transparent sm:w-auto sm:h-auto sm:rounded-none">
           <i data-lucide="award" class="w-6 h-6 sm:w-7 sm:h-7 text-up-green" stroke-width="1.5"></i>
         </span>
-        <div>
+        <div class="min-w-0 flex-1">
           <p class="text-[11px] sm:text-xs text-blue-300/70 uppercase tracking-wider font-semibold">Reconocimiento</p>
-          <p class="text-lg font-semibold text-white leading-tight">RVOE SEP</p>
+          <p class="text-lg font-semibold text-white leading-tight break-all"><?php echo esc_html( get_post_meta( get_the_ID(), '_rvoe', true ) ); ?></p>
         </div>
       </div>
 
@@ -138,7 +187,16 @@
 
     <div class="order-2 lg:order-2 relative">
       <div class="absolute -inset-4 bg-gradient-to-tr from-up-green/20 to-up-blue/20 rounded-3xl transform rotate-2"></div>
-      <img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Estudiantes en cocina" class="relative rounded-2xl shadow-2xl z-10 w-full object-cover aspect-[4/3]">
+      
+      <?php
+        // 1. Obtener la imagen personalizada
+        $imagen_programa = get_post_meta( get_the_ID(), '_imagen_programa', true );
+        
+        // 2. Definir el fallback si está vacío (puedes usar la de unsplash o una local de tu tema)
+        $url_img_programa = ! empty( $imagen_programa ) ? $imagen_programa : 'https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80';
+      ?>
+      
+      <img src="<?php echo esc_url( $url_img_programa ); ?>" alt="<?php the_title_attribute(); ?>" class="relative rounded-2xl shadow-2xl z-10 w-full object-cover aspect-[4/3]">
     </div>
 
     <div class="order-1 lg:order-1 flex flex-col gap-6">
@@ -147,18 +205,28 @@
         <span class="text-sm font-medium text-up-green uppercase tracking-widest">Conoce la carrera</span>
       </div>
       <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-up-blue-dark">Sobre el programa</h2>
-      <p class="text-lg text-slate-600 leading-relaxed">
-        La Licenciatura en Administración de Empresas Gastronómicas forma profesionales con las competencias necesarias para gestionar, operar y dirigir establecimientos de alimentos y bebidas, integrando el arte culinario con sólidos conocimientos administrativos y de negocios.
-      </p>
-      <p class="text-lg text-slate-600 leading-relaxed">
-        Nuestro enfoque práctico te permite desarrollar habilidades desde el primer día en laboratorios especializados, preparándote para enfrentar los retos del mercado global.
-      </p>
+      
+      <!-- Contenido desde el Editor de WordPress -->
+      <!-- La clase space-y-4 separa los párrafos y hereda tus estilos originales -->
+      <div class="text-lg text-slate-600 leading-relaxed space-y-4">
+        <?php 
+          // Imprime el contenido principal puesto en el editor de WP
+          the_content(); 
+        ?>
+      </div>
+
+      <!-- Botón Condicional -->
+      <?php 
+        $url_plan = get_post_meta( get_the_ID(), '_url_plan_estudios', true );
+        if ( ! empty( $url_plan ) ) : 
+      ?>
       <div class="mt-4">
-        <a href="#" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-up-blue text-white text-base font-medium rounded-lg hover:bg-up-blue-dark transition-all">
+        <a href="<?php echo esc_url( $url_plan ); ?>" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-up-blue text-white text-base font-medium rounded-lg hover:bg-up-blue-dark transition-all">
           Descargar plan de estudios
           <i data-lucide="download" class="w-4 h-4"></i>
         </a>
       </div>
+      <?php endif; ?>
     </div>
 
   </div>
@@ -178,30 +246,53 @@
 
   <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-0 items-end relative z-10">
     <!-- Texto -->
-    <div class="order-1 lg:order-1 pb-0 lg:pb-24 flex flex-col gap-6 mt-28 -mb-28 min-[390px]:-mb-0 lg:mb-0 lg:mt-0">
+    <div class="order-1 lg:order-1 pb-0 lg:pb-24 flex flex-col gap-6 mt-28 -mb-28 min-[390px]:-mb-0 lg:mb-0">
       <h2 class="text-4xl md:text-5xl font-semibold tracking-tight leading-[1.05]">
         <span class="block text-up-blue-dark">Perfil de</span>
         <span class="block text-up-blue">Ingreso</span>
       </h2>
-      <p class="text-lg text-slate-600 max-w-md">El aspirante a esta licenciatura debe contar con las siguientes características:</p>
+      <?php
+        // 1. Obtener las categorías asignadas a esta carrera
+        $categorias = get_the_category();
+        
+        // 2. Definir un valor por defecto en caso de que olviden marcar la categoría
+        $tipo_programa = 'carrera'; 
+        
+        if ( ! empty( $categorias ) ) {
+            // 3. Tomar el nombre de la primera categoría marcada y pasarlo a minúsculas
+            $tipo_programa = mb_strtolower( $categorias[0]->name, 'UTF-8' );
+        }
+      ?>
+      <p class="text-lg text-slate-600 max-w-md">El aspirante a esta <?php echo esc_html( $tipo_programa ); ?> debe contar con las siguientes características:</p>
 
+      <?php
+      // Perfil de ingreso: se extraen los puntos del editor (_perfil_ingreso)
+      // y se vuelven a pintar con el mismo markup de checks de la plantilla.
+      $perfil_ingreso = get_post_meta( get_the_ID(), '_perfil_ingreso', true );
+      $items_ingreso  = array();
+      if ( $perfil_ingreso && preg_match_all( '/<li[^>]*>(.*?)<\/li>/is', $perfil_ingreso, $m_ing ) ) {
+          foreach ( $m_ing[1] as $li_ing ) {
+              $txt_ing = trim( wp_strip_all_tags( $li_ing ) );
+              if ( '' !== $txt_ing ) {
+                  $items_ingreso[] = $txt_ing;
+              }
+          }
+      }
+      ?>
       <ul class="space-y-4 max-w-md">
-        <li class="flex items-start gap-4">
-          <div class="mt-1 bg-green-100 p-1 rounded-full text-up-green shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
-          <span class="text-lg text-slate-700">Vocación de servicio e interés por la hospitalidad y la gastronomía.</span>
-        </li>
-        <li class="flex items-start gap-4">
-          <div class="mt-1 bg-green-100 p-1 rounded-full text-up-green shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
-          <span class="text-lg text-slate-700">Capacidad para el trabajo en equipo y bajo presión.</span>
-        </li>
-        <li class="flex items-start gap-4">
-          <div class="mt-1 bg-green-100 p-1 rounded-full text-up-green shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
-          <span class="text-lg text-slate-700">Interés por las culturas, tradiciones y tendencias culinarias globales.</span>
-        </li>
-        <li class="flex items-start gap-4">
-          <div class="mt-1 bg-green-100 p-1 rounded-full text-up-green shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
-          <span class="text-lg text-slate-700">Habilidades básicas de comunicación, liderazgo y organización.</span>
-        </li>
+        <?php if ( ! empty( $items_ingreso ) ) : ?>
+          <?php foreach ( $items_ingreso as $item_ing ) : ?>
+            <li class="flex items-start gap-4">
+              <div class="mt-1 bg-green-100 p-1 rounded-full text-up-green shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
+              <span class="text-lg text-slate-700"><?php echo esc_html( $item_ing ); ?></span>
+            </li>
+          <?php endforeach; ?>
+        <?php elseif ( $perfil_ingreso ) : ?>
+          <li class="flex items-start gap-4">
+            <div class="mt-1 bg-green-100 p-1 rounded-full text-up-green shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div>
+            <span class="text-lg text-slate-700"><?php echo wp_kses_post( $perfil_ingreso ); ?></span>
+          </li>
+        <?php endif; ?>
       </ul>
     </div>
 
@@ -218,11 +309,16 @@
         </defs>
         <rect width="100%" height="100%" fill="url(#ing-dots)" mask="url(#ing-mask)" opacity="0.08"/>
       </svg>
-
-      <img src="<?php echo esc_url( get_theme_file_uri( '/assets/img/carreras/cienciass-pg-2.webp' ) ); ?>"
-           alt="Aspirantes Instituto Universitario"
-           class="absolute bottom-0 inset-x-0 mx-auto lg:mx-0 lg:right-0 h-full w-auto max-w-full object-contain object-bottom z-10 drop-shadow-[0_20px_40px_rgba(0,16,62,0.18)]">
-    </div>
+      <?php
+          // Obtener la imagen personalizada
+          $imagen_ing = get_post_meta( get_the_ID(), '_imagen_ingreso', true );
+          // Definir el fallback
+          $url_img_ing = ! empty( $imagen_ing ) ? $imagen_ing : get_theme_file_uri( '/assets/img/carreras/cienciass-pg-2.webp' );
+        ?>
+        <img src="<?php echo esc_url( $url_img_ing ); ?>"
+            alt="Perfil de Ingreso - <?php the_title_attribute(); ?>"
+            class="absolute bottom-0 inset-x-0 mx-auto lg:mx-0 lg:right-0 h-full w-auto max-w-full object-contain object-bottom z-10 drop-shadow-[0_20px_40px_rgba(0,16,62,0.18)]">
+      </div>
   </div>
 </section>
 
@@ -238,7 +334,7 @@
     </svg>
   </div>
 
-  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2  items-end relative z-10">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 lg:mt-28 items-end relative z-10">
     <!-- Figura recortada + decoración detrás -->
     <div class="order-2 lg:order-1 relative self-end h-[420px] sm:h-[520px] lg:h-[640px]">
       <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[105%] h-[78%] rounded-full bg-gradient-to-t from-up-blue/15 via-up-blue/5 to-transparent blur-2xl"></div>
@@ -252,79 +348,129 @@
         </defs>
         <rect width="100%" height="100%" fill="url(#egr-dots)" mask="url(#egr-mask)" opacity="0.12"/>
       </svg>
-
-      <img src="<?php echo esc_url( get_theme_file_uri( '/assets/img/carreras/cienciass-pg-3.webp' ) ); ?>"
-           alt="Egresados Instituto Universitario"
+      <?php
+        // Obtener la imagen personalizada
+        $imagen_egr = get_post_meta( get_the_ID(), '_imagen_egreso', true );
+        // Definir el fallback
+        $url_img_egr = ! empty( $imagen_egr ) ? $imagen_egr : get_theme_file_uri( '/assets/img/carreras/cienciass-pg-3.webp' );
+      ?>
+      <img src="<?php echo esc_url( $url_img_egr ); ?>"
+           alt="Perfil de Egreso - <?php the_title_attribute(); ?>"
            class="absolute bottom-0 inset-x-0 mx-auto lg:mx-0 lg:left-0 h-full w-auto max-w-full object-contain object-bottom z-10 drop-shadow-[0_20px_40px_rgba(0,16,62,0.18)]">
     </div>
 
     <!-- Texto -->
-    <div class="order-1 lg:order-2  pb-16 lg:pb-24 flex flex-col gap-6 mt-28 lg:mt-0 -mb-30 min-[390px]:-mb-9 lg:mb-0 sm:ml-auto sm:mr-0 sm:w-fit">
+    <div class="order-1 lg:order-2  pb-16 lg:pb-24 flex flex-col gap-6 mt-28 -mb-30 min-[390px]:-mb-9 lg:mb-0 sm:ml-auto sm:mr-0 sm:w-fit">
       <h2 class="text-4xl md:text-5xl font-semibold tracking-tight leading-[1.05] lg:text-right">
         <span class="block text-up-blue-dark">Perfil de</span>
         <span class="block text-up-green">Egreso</span>
       </h2>
       <p class="text-lg text-slate-600 lg:text-right lg:ml-auto max-w-md">Al concluir tus estudios, serás un profesional capaz de:</p>
 
+      <?php
+      // Perfil de egreso: mismos puntos del editor (_perfil_egreso) con el
+      // markup invertido (chevron azul, alineado a la derecha) de la plantilla.
+      $perfil_egreso = get_post_meta( get_the_ID(), '_perfil_egreso', true );
+      $items_egreso  = array();
+      if ( $perfil_egreso && preg_match_all( '/<li[^>]*>(.*?)<\/li>/is', $perfil_egreso, $m_egr ) ) {
+          foreach ( $m_egr[1] as $li_egr ) {
+              $txt_egr = trim( wp_strip_all_tags( $li_egr ) );
+              if ( '' !== $txt_egr ) {
+                  $items_egreso[] = $txt_egr;
+              }
+          }
+      }
+      ?>
       <ul class="space-y-4 lg:ml-auto max-w-md">
-        <li class="flex items-start gap-4 flex-row-reverse text-right">
-          <div class="mt-1 bg-up-blue/10 p-1 rounded-full text-up-blue shrink-0"><i data-lucide="chevron-left" class="w-4 h-4"></i></div>
-          <span class="text-lg text-slate-700">Diseñar, planear y operar empresas gastronómicas con estándares internacionales de calidad.</span>
-        </li>
-        <li class="flex items-start gap-4 flex-row-reverse text-right">
-          <div class="mt-1 bg-up-blue/10 p-1 rounded-full text-up-blue shrink-0"><i data-lucide="chevron-left" class="w-4 h-4"></i></div>
-          <span class="text-lg text-slate-700">Aplicar técnicas culinarias de vanguardia y tradicionales en la creación de menús innovadores.</span>
-        </li>
-        <li class="flex items-start gap-4 flex-row-reverse text-right">
-          <div class="mt-1 bg-up-blue/10 p-1 rounded-full text-up-blue shrink-0"><i data-lucide="chevron-left" class="w-4 h-4"></i></div>
-          <span class="text-lg text-slate-700">Gestionar eficientemente los recursos humanos, financieros y materiales de la industria de alimentos y bebidas.</span>
-        </li>
-        <li class="flex items-start gap-4 flex-row-reverse text-right">
-          <div class="mt-1 bg-up-blue/10 p-1 rounded-full text-up-blue shrink-0"><i data-lucide="chevron-left" class="w-4 h-4"></i></div>
-          <span class="text-lg text-slate-700">Emprender proyectos de negocios propios en el sector de la hospitalidad y gastronomía.</span>
-        </li>
+        <?php if ( ! empty( $items_egreso ) ) : ?>
+          <?php foreach ( $items_egreso as $item_egr ) : ?>
+            <li class="flex items-start gap-4 flex-row-reverse text-right">
+              <div class="mt-1 bg-up-blue/10 p-1 rounded-full text-up-blue shrink-0"><i data-lucide="chevron-left" class="w-4 h-4"></i></div>
+              <span class="text-lg text-slate-700"><?php echo esc_html( $item_egr ); ?></span>
+            </li>
+          <?php endforeach; ?>
+        <?php elseif ( $perfil_egreso ) : ?>
+          <li class="flex items-start gap-4 flex-row-reverse text-right">
+            <div class="mt-1 bg-up-blue/10 p-1 rounded-full text-up-blue shrink-0"><i data-lucide="chevron-left" class="w-4 h-4"></i></div>
+            <span class="text-lg text-slate-700"><?php echo wp_kses_post( $perfil_egreso ); ?></span>
+          </li>
+        <?php endif; ?>
       </ul>
     </div>
   </div>
 </section>
 
 <!-- ===================== AGENDA UNA CITA (formulario, navy) ===================== -->
-<section id="contacto" class="py-15 bg-up-blue-dark relative overflow-hidden">
+<section id="Contacto" class="py-15 bg-up-blue-dark relative overflow-hidden">
   <!-- Trama de marca -->
   <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 32px 32px;"></div>
   <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-up-blue/30 rounded-full blur-[100px] pointer-events-none"></div>
   <div class="absolute right-0 top-0 w-[300px] h-[300px] bg-up-green/10 rounded-full blur-[80px] pointer-events-none"></div>
-
+ 
   <div class="max-w-3xl mx-auto px-6 relative z-10 text-center">
-    <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-4">Agenda una cita</h2>
-    <p class="text-lg text-blue-200 mb-10">Déjanos tus datos y un asesor académico se pondrá en contacto contigo para resolver todas tus dudas.</p>
-
-    <form class="bg-white/5 backdrop-blur-md p-8 md:p-10 rounded-2xl border border-white/10 shadow-2xl">
+    <h2 class="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-4">Solicita informes</h2>
+    <p class="text-lg text-slate-200 mb-10">Déjanos tus datos y un asesor académico se pondrá en contacto contigo para resolver todas tus dudas.</p>
+ 
+    <?php $iup_kf_ready = class_exists( 'IUP_Carreras_Form' ); ?>
+    <form id="iup-carreras-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST" class="bg-white/5 backdrop-blur-md p-8 md:p-10 rounded-2xl border border-white/10 shadow-2xl">
+ 
+      <?php if ( $iup_kf_ready ) : ?>
+        <?php wp_nonce_field( 'iup_carreras_form_nonce', 'iup_kf_nonce' ); ?>
+        <input type="hidden" name="action" value="iup_carreras_submit" />
+        <input type="hidden" name="iup_kf_token" value="<?php echo esc_attr( IUP_Carreras_Form::make_token() ); ?>" />
+        <!-- Campo OCULTO: nombre de la carrera (del <h1>; respaldo: get_the_title()) -->
+        <input type="hidden" name="carrera" id="iup-carrera" value="<?php echo esc_attr( get_the_title() ); ?>" />
+        <!-- Honeypot anti-spam: debe permanecer vacío -->
+        <div class="iup-kf-hp" aria-hidden="true" style="position:absolute !important;left:-9999px !important;top:0;width:1px;height:1px;overflow:hidden;">
+          <label for="iup_kf_website">No llenar este campo</label>
+          <input type="text" id="iup_kf_website" name="iup_kf_website" tabindex="-1" autocomplete="off" value="" />
+        </div>
+      <?php endif; ?>
+ 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div class="space-y-2 text-left">
-          <label for="nombre" class="text-sm font-medium text-blue-100">Nombre completo</label>
-          <input type="text" id="nombre" class="w-full bg-up-blue-dark border border-white/15 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-up-green focus:ring-1 focus:ring-up-green transition-colors placeholder:text-slate-500" placeholder="Ej. Juan Pérez">
+          <label for="nombre" class="text-sm font-medium text-slate-200">Nombre completo</label>
+          <input type="text" id="nombre" name="nombre" required class="w-full bg-up-blue-dark border border-white/15 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-up-green focus:ring-1 focus:ring-up-green transition-colors placeholder:text-slate-500" placeholder="Ej. Juan Pérez">
         </div>
         <div class="space-y-2 text-left">
-          <label for="apellidos" class="text-sm font-medium text-blue-100">Apellidos</label>
-          <input type="text" id="apellidos" class="w-full bg-up-blue-dark border border-white/15 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-up-green focus:ring-1 focus:ring-up-green transition-colors placeholder:text-slate-500" placeholder="Ej. García López">
+          <label for="apellidos" class="text-sm font-medium text-slate-200">Apellidos</label>
+          <input type="text" id="apellidos" name="apellidos" required class="w-full bg-up-blue-dark border border-white/15 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-up-green focus:ring-1 focus:ring-up-green transition-colors placeholder:text-slate-500" placeholder="Ej. García López">
         </div>
       </div>
       <div class="space-y-2 text-left mb-6">
-        <label for="correo" class="text-sm font-medium text-blue-100">Correo electrónico</label>
-        <input type="email" id="correo" class="w-full bg-up-blue-dark border border-white/15 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-up-green focus:ring-1 focus:ring-up-green transition-colors placeholder:text-slate-500" placeholder="tu@correo.com">
+        <label for="correo" class="text-sm font-medium text-slate-200">Correo electrónico</label>
+        <input type="email" id="correo" name="correo" required class="w-full bg-up-blue-dark border border-white/15 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-up-green focus:ring-1 focus:ring-up-green transition-colors placeholder:text-slate-500" placeholder="tu@correo.com">
       </div>
       <div class="space-y-2 text-left mb-8">
-        <label for="telefono" class="text-sm font-medium text-blue-100">Número de teléfono / WhatsApp</label>
+        <label for="telefono" class="text-sm font-medium text-slate-200">Número de teléfono / WhatsApp</label>
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <i data-lucide="phone" class="h-5 w-5 text-slate-500"></i>
           </div>
-          <input type="tel" id="telefono" class="w-full bg-up-blue-dark border border-white/15 text-white rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:border-up-green focus:ring-1 focus:ring-up-green transition-colors placeholder:text-slate-500" placeholder="10 dígitos">
+          <input type="tel" id="telefono" name="telefono" required class="w-full bg-up-blue-dark border border-white/15 text-white rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:border-up-green focus:ring-1 focus:ring-up-green transition-colors placeholder:text-slate-500" placeholder="10 dígitos">
         </div>
       </div>
-
-      <button type="button" class="w-full bg-up-green text-up-blue-dark text-lg font-semibold py-4 rounded-lg hover:bg-[#47a23e] transition-colors cursor-pointer">
+ 
+      <?php
+      $iup_state = isset( $_GET['iup_cita'] ) ? sanitize_key( wp_unslash( $_GET['iup_cita'] ) ) : '';
+      $iup_msg   = '';
+      $iup_cls   = '';
+      if ( ! empty( $iup_kf_ready ) ) {
+          $iup_opts = IUP_Carreras_Form::get_options();
+          if ( 'ok' === $iup_state ) {
+              $iup_msg = $iup_opts['success_message'];
+              $iup_cls = 'bg-up-green/20 text-white border border-up-green/50';
+          } elseif ( 'error' === $iup_state ) {
+              $iup_msg = $iup_opts['error_message'];
+              $iup_cls = 'bg-red-500/15 text-red-200 border border-red-400/40';
+          }
+      }
+      ?>
+      <div id="iup-kf-status" class="iup-kf-status mb-6 rounded-lg px-4 py-3 text-base font-medium text-left <?php echo esc_attr( $iup_cls ); ?>" role="status"<?php echo $iup_msg ? '' : ' hidden'; ?>>
+        <?php echo esc_html( $iup_msg ); ?>
+      </div>
+ 
+      <button type="submit" class="w-full bg-up-green text-up-blue-dark text-lg font-semibold py-4 rounded-lg hover:bg-[#47a23e] transition-colors cursor-pointer">
         Enviar información
       </button>
     </form>
@@ -352,7 +498,7 @@
   <div class="max-w-7xl mx-auto px-6">
     <div class="text-center mb-16">
       <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-up-blue-dark mb-4">Plan de estudios</h2>
-      <p class="text-lg text-slate-600 max-w-2xl mx-auto">Nuestro programa está estructurado para brindarte un aprendizaje progresivo, combinando teoría, práctica y visión de negocios desde el primer semestre.</p>
+      <p class="text-lg text-slate-800 max-w-2xl mx-auto">Nuestro programa está estructurado para brindarte un aprendizaje progresivo, combinando teoría, práctica y visión de negocios desde el primer semestre.</p>
     </div>
 
     <div class="blaze-slider plan-slider relative">
@@ -360,57 +506,52 @@
         <div class="blaze-track-container">
           <div class="blaze-track">
 
-            <!-- 1er -->
-            <div class="bg-white p-8 rounded-2xl border border-gray-200 hover:border-up-green transition-all hover:shadow-lg relative overflow-hidden group">
-              <div class="absolute -right-4 -top-4 text-8xl font-black text-up-green/50 opacity-90 group-hover:text-up-green transition-colors pointer-events-none">1</div>
-              <h3 class="text-xl font-semibold text-up-blue-dark mb-6 relative z-10 border-b border-up-green pb-2 inline-block">1er Semestre</h3>
-              <ul class="space-y-3 relative z-10">
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Bases Culinarias I</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Sanidad e Higiene</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Introducción a la Admón.</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Matemáticas Básicas</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Historia de la Gastronomía</li>
-              </ul>
-            </div>
+            <?php
+            // Plan de estudios dinámico (_plan_estudios): cada cuatrimestre
+            // reusa exactamente la misma tarjeta de la plantilla.
+            $plan_estudios = get_post_meta( get_the_ID(), '_plan_estudios', true );
+            if ( ! is_array( $plan_estudios ) ) {
+                $plan_estudios = array();
+            }
+            ?>
 
-            <!-- 2do -->
-            <div class="bg-white p-8 rounded-2xl border border-gray-200 hover:border-up-green transition-all hover:shadow-lg relative overflow-hidden group">
-              <div class="absolute -right-4 -top-4 text-8xl font-black text-up-green/50 opacity-90 group-hover:text-up-green transition-colors pointer-events-none">2</div>
-              <h3 class="text-xl font-semibold text-up-blue-dark mb-6 relative z-10 border-b border-up-green pb-2 inline-block">2do Semestre</h3>
-              <ul class="space-y-3 relative z-10">
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Bases Culinarias II</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Nutrición Básica</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Contabilidad Financiera</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Química de Alimentos</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Técnicas de Servicio</li>
-              </ul>
-            </div>
+            <?php 
+            // 1. Inicializamos el contador antes de que empiece el bucle
+            $contador_bloque = 1; 
 
-            <!-- 3er -->
+            foreach ( $plan_estudios as $cuatri ) :
+                $numero   = isset( $cuatri['numero'] ) ? $cuatri['numero'] : '';
+                $materias = ( isset( $cuatri['materias'] ) && is_array( $cuatri['materias'] ) ) ? $cuatri['materias'] : array();
+                
+                // 2. Formateamos el número para que siempre tenga dos dígitos (01, 02, 03, etc.)
+                $numero_fondo = sprintf('%02d', $contador_bloque);
+            ?>
             <div class="bg-white p-8 rounded-2xl border border-gray-200 hover:border-up-green transition-all hover:shadow-lg relative overflow-hidden group">
-              <div class="absolute -right-4 -top-4 text-8xl font-black text-up-green/50 opacity-90 group-hover:text-up-green transition-colors pointer-events-none">3</div>
-              <h3 class="text-xl font-semibold text-up-blue-dark mb-6 relative z-10 border-b border-up-green pb-2 inline-block">3er Semestre</h3>
+              
+              <!-- 3. Imprimimos nuestro contador formateado aquí -->
+              <div class="absolute -right-4 -top-4 text-8xl font-black text-up-green/50 opacity-90 group-hover:text-up-green transition-colors pointer-events-none"><?php echo esc_html( $numero_fondo ); ?></div>
+              
+              <!-- Mantenemos $numero normal para el título por si escriben "1", "2" o números romanos -->
+              <h3 class="text-xl font-semibold text-up-blue-dark mb-6 relative z-10 border-b border-up-green pb-2 inline-block"><?php echo esc_html( $numero ); ?></h3>
+              
               <ul class="space-y-3 relative z-10">
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Panadería Básica</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Costos de A y B</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Derecho Laboral</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Enología y Maridaje</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Mercadotecnia</li>
+                <?php foreach ( $materias as $materia ) : ?>
+                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> <?php echo esc_html( $materia ); ?></li>
+                <?php endforeach; ?>
               </ul>
             </div>
+            <?php 
+                // 4. Incrementamos el contador al final de cada iteración
+                $contador_bloque++; 
+            endforeach; 
+            ?>
 
-            <!-- 4to -->
-            <div class="bg-white p-8 rounded-2xl border border-gray-200 hover:border-up-green transition-all hover:shadow-lg relative overflow-hidden group">
-              <div class="absolute -right-4 -top-4 text-8xl font-black text-up-green/50 opacity-90 group-hover:text-up-green transition-colors pointer-events-none">4</div>
-              <h3 class="text-xl font-semibold text-up-blue-dark mb-6 relative z-10 border-b border-up-green pb-2 inline-block">4to Semestre</h3>
-              <ul class="space-y-3 relative z-10">
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Cocina Mexicana</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Repostería Básica</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Gestión de Compras</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Coctelería</li>
-                <li class="text-sm text-slate-600 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-up-blue"></span> Admón. de Recursos Humanos</li>
-              </ul>
+            <?php if ( empty( $plan_estudios ) ) : ?>
+            <!-- Sin plan capturado todavía: tarjeta de respaldo para no romper el slider -->
+            <div class="bg-white p-8 rounded-2xl border border-gray-200 relative overflow-hidden">
+              <p class="text-sm text-slate-800">El plan de estudios se publicará próximamente.</p>
             </div>
+            <?php endif; ?>
 
             
 
@@ -418,7 +559,7 @@
         </div>
 
         <!-- Controles (visibles en todos los anchos) -->
-        <div class="flex items-center justify-center gap-4 mt-10">
+        <div class="blaze-controls flex items-center justify-center gap-4 mt-10">
           <button class="blaze-prev w-10 h-10 rounded-full border border-gray-300 bg-white text-up-blue shadow-sm flex items-center justify-center hover:bg-gray-50 transition-colors" aria-label="Anterior">
             <i data-lucide="chevron-left" class="w-5 h-5" stroke-width="2"></i>
           </button>
@@ -427,6 +568,7 @@
             <i data-lucide="chevron-right" class="w-5 h-5" stroke-width="2"></i>
           </button>
         </div>
+
       </div>
     </div>
   </div>
@@ -449,12 +591,36 @@
             enableAutoplay: false,
             transitionDuration: 400,
           },
-          "(min-width: 640px)":  { slidesToShow: 2 },
-          "(min-width: 1024px)": { slidesToShow: 3 },
-          "(min-width: 1280px)": { slidesToShow: 4 },
+          "(min-width: 640px)":  { slidesToShow: 2, slidesToScroll: 2 },
+          "(min-width: 1024px)": { slidesToShow: 3, slidesToScroll: 3 },
+          "(min-width: 1280px)": { slidesToShow: 4, slidesToScroll: 4 },
         });
 
         if (typeof lucide !== "undefined") lucide.createIcons();
+
+        // --- NUEVA LÓGICA: Ocultar controles dinámicamente ---
+        function toggleControls() {
+          var controls = el.querySelector(".blaze-controls");
+          var dots = el.querySelectorAll(".blaze-pagination button");
+          
+          if (controls) {
+            // Si hay 1 o 0 botones de paginación, significa que todo cabe en pantalla
+            if (dots.length <= 1) {
+                controls.style.display = "none";
+            } else {
+                controls.style.display = "flex";
+            }
+          }
+        }
+
+        // Ejecutar inmediatamente después de inicializar el slider
+        toggleControls();
+
+        // Volver a evaluar si el usuario redimensiona la pantalla (ej. pasa de móvil a PC)
+        window.addEventListener("resize", function() {
+            // Damos un pequeño retraso para permitir que BlazeSlider recalcule primero
+            setTimeout(toggleControls, 100);
+        });
       }
 
       if (document.readyState !== "loading") initPlan();
@@ -471,13 +637,33 @@
   </svg>
 
   <div class="max-w-7xl mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center justify-between gap-10">
+    
+    <?php
+      // 1. Obtener los valores personalizados
+      $vida_sub  = get_post_meta( get_the_ID(), '_vida_subtitulo', true );
+      $vida_desc = get_post_meta( get_the_ID(), '_vida_descripcion', true );
+      $vida_img  = get_post_meta( get_the_ID(), '_vida_imagen', true );
+
+      // 2. Definir valores por defecto (fallbacks)
+      $fallback_sub  = ! empty( $vida_sub ) ? $vida_sub : 'En el IUP no solo vienes a estudiar, vienes a vivir la gastronomía.';
+      $fallback_desc = ! empty( $vida_desc ) ? $vida_desc : 'Participa en concursos internos, prácticas profesionales en los mejores restaurantes, congresos y eventos culinarios de talla nacional e internacional que enriquecerán tu formación.';
+      $fallback_img  = ! empty( $vida_img ) ? $vida_img : 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80';
+    ?>
+
     <div class="md:w-1/2">
       <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-up-blue-dark mb-4">Vida estudiantil</h2>
-      <p class="text-xl text-up-blue-dark/80 font-medium">En el IUP no solo vienes a estudiar, vienes a vivir la gastronomía.</p>
-      <p class="mt-4 text-up-blue-dark/70 text-lg">Participa en concursos internos, prácticas profesionales en los mejores restaurantes, congresos y eventos culinarios de talla nacional e internacional que enriquecerán tu formación.</p>
+      <p class="text-xl text-up-blue-dark/80 font-medium">
+        <?php echo esc_html( $fallback_sub ); ?>
+      </p>
+      <p class="mt-4 text-up-blue-dark/70 text-lg">
+        <?php echo nl2br( esc_html( $fallback_desc ) ); ?>
+      </p>
     </div>
+    
     <div class="md:w-5/12">
-      <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Alumnos en evento" class="rounded-2xl shadow-[10px_10px_0px_rgba(0,16,62,0.15)] border-4 border-white transform rotate-2">
+      <img src="<?php echo esc_url( $fallback_img ); ?>" 
+           alt="Vida estudiantil - <?php the_title_attribute(); ?>" 
+           class="rounded-2xl shadow-[10px_10px_0px_rgba(0,16,62,0.15)] border-4 border-white transform rotate-2">
     </div>
   </div>
 </section>
@@ -524,37 +710,49 @@
         <div class="blaze-track-container">
           <div class="blaze-track">
 
-            <div class="text-center flex flex-col items-center group">
-              <div class="w-16 h-16 rounded-2xl bg-blue-50 text-up-blue flex items-center justify-center mb-4 border border-blue-100 shadow-sm group-hover:bg-up-blue group-hover:text-white transition-colors">
-                <i data-lucide="chef-hat" class="w-8 h-8"></i>
-              </div>
-              <h3 class="text-lg font-semibold text-up-text mb-2">Laboratorios Culinarios</h3>
-              <p class="text-sm text-slate-600">Cocinas industriales equipadas con tecnología de vanguardia para prácticas reales.</p>
-            </div>
+            <?php
+            // 1. Obtener los bloques desde la base de datos
+            $herramientas = get_post_meta( get_the_ID(), '_herramientas', true );
 
-            <div class="text-center flex flex-col items-center group">
-              <div class="w-16 h-16 rounded-2xl bg-blue-50 text-up-blue flex items-center justify-center mb-4 border border-blue-100 shadow-sm group-hover:bg-up-blue group-hover:text-white transition-colors">
-                <i data-lucide="glass-water" class="w-8 h-8"></i>
-              </div>
-              <h3 class="text-lg font-semibold text-up-text mb-2">Sala de Catas</h3>
-              <p class="text-sm text-slate-600">Espacio especializado para el estudio de la enología, mixología y análisis sensorial.</p>
-            </div>
+            // 2. Definir valores por defecto (fallback) si el array está vacío
+            if ( empty( $herramientas ) || ! is_array( $herramientas ) ) {
+                $herramientas = array(
+                    array(
+                        'icono' => 'chef-hat',
+                        'titulo' => 'Laboratorios Culinarios',
+                        'descripcion' => 'Cocinas industriales equipadas con tecnología de vanguardia para prácticas reales.'
+                    ),
+                    array(
+                        'icono' => 'glass-water',
+                        'titulo' => 'Sala de Catas',
+                        'descripcion' => 'Espacio especializado para el estudio de la enología, mixología y análisis sensorial.'
+                    ),
+                    array(
+                        'icono' => 'monitor-play',
+                        'titulo' => 'Simulador de Negocios',
+                        'descripcion' => 'Software especializado para la administración y control de restaurantes y hoteles.'
+                    ),
+                    array(
+                        'icono' => 'book-copy',
+                        'titulo' => 'Biblioteca Gastronómica',
+                        'descripcion' => 'Acervo bibliográfico especializado en artes culinarias, nutrición y administración.'
+                    ),
+                );
+            }
 
+            // 3. Iterar y renderizar cada herramienta
+            foreach ( $herramientas as $herr ) : 
+                // Asegurarnos de que haya un ícono, si lo dejan vacío ponemos uno por defecto
+                $icono_lucide = ! empty( $herr['icono'] ) ? $herr['icono'] : 'check-circle';
+            ?>
             <div class="text-center flex flex-col items-center group">
               <div class="w-16 h-16 rounded-2xl bg-blue-50 text-up-blue flex items-center justify-center mb-4 border border-blue-100 shadow-sm group-hover:bg-up-blue group-hover:text-white transition-colors">
-                <i data-lucide="monitor-play" class="w-8 h-8"></i>
+                <i data-lucide="<?php echo esc_attr( $icono_lucide ); ?>" class="w-8 h-8"></i>
               </div>
-              <h3 class="text-lg font-semibold text-up-text mb-2">Simulador de Negocios</h3>
-              <p class="text-sm text-slate-600">Software especializado para la administración y control de restaurantes y hoteles.</p>
+              <h3 class="text-lg font-semibold text-up-text mb-2"><?php echo esc_html( $herr['titulo'] ); ?></h3>
+              <p class="text-sm text-slate-600"><?php echo nl2br( esc_html( $herr['descripcion'] ) ); ?></p>
             </div>
-
-            <div class="text-center flex flex-col items-center group">
-              <div class="w-16 h-16 rounded-2xl bg-blue-50 text-up-blue flex items-center justify-center mb-4 border border-blue-100 shadow-sm group-hover:bg-up-blue group-hover:text-white transition-colors">
-                <i data-lucide="book-copy" class="w-8 h-8"></i>
-              </div>
-              <h3 class="text-lg font-semibold text-up-text mb-2">Biblioteca Gastronómica</h3>
-              <p class="text-sm text-slate-600">Acervo bibliográfico especializado en artes culinarias, nutrición y administración.</p>
-            </div>
+            <?php endforeach; ?>
 
           </div>
         </div>
@@ -636,7 +834,7 @@
               </p>
             </div>
             <a
-              href="#"
+              href="#Contacto"
               class="shrink-0 inline-flex items-center gap-2 bg-up-green text-up-blue-dark px-8 py-4 rounded-xl font-medium hover:bg-up-green/90 hover:shadow-xl transition-all text-lg"
             >
               Agendar visita

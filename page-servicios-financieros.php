@@ -13,14 +13,9 @@
       <h1 class="text-4xl md:text-6xl font-semibold tracking-tight mb-8 text-white">
           Gestiona tus pagos de manera <span class="text-up-green">fácil y segura</span>
       </h1>
-      <p class="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto mb-12 leading-relaxed">
+      <p class="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
           Conoce las opciones que tenemos para ti. Realiza tus pagos de colegiatura y servicios desde donde estés o directamente en nuestro campus.
       </p>
-      <div class="flex flex-col sm:flex-row justify-center gap-4">
-          <a href="#transferencia" class="bg-up-green text-black px-8 py-4 rounded-xl font-medium hover:bg-[#459e3c] transition flex items-center justify-center gap-2">
-              Ver opciones de pago <i data-lucide="arrow-down" stroke-width="1.5" class="w-5 h-5"></i>
-          </a>
-      </div>
   </div>
 </section>
 
@@ -39,7 +34,7 @@
         <radialGradient id="transfer-fade" cx="100%" cy="100%" r="65%">
           <stop offset="0" stop-color="white" stop-opacity="1"></stop>
           <stop offset="1" stop-color="white" stop-opacity="0"></stop>
-        </radialGradient>
+        </radialGradient>|
         <mask id="transfer-mask"><rect width="100%" height="100%" fill="url(#transfer-fade)"></rect></mask>
       </defs>
       <rect width="100%" height="100%" fill="url(#transfer-dots)" mask="url(#transfer-mask)" opacity="0.14"></rect>
@@ -51,7 +46,7 @@
           <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-6 text-[#171269]">
               Pago Electrónico mediante <br>Transferencia Bancaria
           </h2>
-          <p class="text-lg text-gray-700 mb-10 leading-relaxed">
+          <p class="text-lg text-slate-800 mb-10 leading-relaxed">
               Los pasos descritos en este proceso pueden variar ligeramente dependiendo de la aplicación bancaria que utilices en tu dispositivo móvil. Agiliza tu pago sin salir de casa.
           </p>
 
@@ -61,7 +56,7 @@
                   <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-50 text-[#171269] flex items-center justify-center font-semibold border border-blue-100 group-hover:bg-[#171269] group-hover:text-white transition-colors">1</div>
                   <div>
                       <p class="text-lg text-[#050b14] font-medium mb-1">Ingresa a tu banca móvil</p>
-                      <p class="text-gray-500">Abre la aplicación de tu banco desde tu dispositivo móvil y selecciona la opción para realizar una nueva transferencia o pago.</p>
+                      <p class="text-slate-700">Abre la aplicación de tu banco desde tu dispositivo móvil y selecciona la opción para realizar una nueva transferencia o pago.</p>
                   </div>
               </div>
               <!-- Paso 2 -->
@@ -69,7 +64,7 @@
                   <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-50 text-[#171269] flex items-center justify-center font-semibold border border-blue-100 group-hover:bg-[#171269] group-hover:text-white transition-colors">2</div>
                   <div>
                       <p class="text-lg text-[#050b14] font-medium mb-1">Ingresa los datos bancarios</p>
-                      <p class="text-gray-500">Introduce la información de nuestra institución, asegurándote de colocar el monto exacto de tu pago.</p>
+                      <p class="text-slate-700">Introduce la información de nuestra institución, asegurándote de colocar el monto exacto de tu pago.</p>
                   </div>
               </div>
               <!-- Paso 3 -->
@@ -77,7 +72,7 @@
                   <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-50 text-[#171269] flex items-center justify-center font-semibold border border-blue-100 group-hover:bg-[#171269] group-hover:text-white transition-colors">3</div>
                   <div>
                       <p class="text-lg text-[#050b14] font-medium mb-1">Confirma y guarda el comprobante</p>
-                      <p class="text-gray-500">Confirma la transferencia y guarda una captura de pantalla o descarga el comprobante digital.</p>
+                      <p class="text-slate-700">Confirma la transferencia y guarda una captura de pantalla o descarga el comprobante digital.</p>
                   </div>
               </div>
               <!-- Paso 4 -->
@@ -85,7 +80,7 @@
                   <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-50 text-[#171269] flex items-center justify-center font-semibold border border-blue-100 group-hover:bg-[#171269] group-hover:text-white transition-colors">4</div>
                   <div>
                       <p class="text-lg text-[#050b14] font-medium mb-1">Notifica tu pago</p>
-                      <p class="text-gray-500">Envía el comprobante a nuestro correo o WhatsApp. Incluye tu nombre completo, matrícula y concepto de pago. Recibirás confirmación pronto.</p>
+                      <p class="text-slate-700">Envía el comprobante a nuestro correo o WhatsApp. Incluye tu nombre completo, matrícula y concepto de pago. Recibirás confirmación pronto.</p>
                   </div>
               </div>
           </div>
@@ -101,7 +96,7 @@
                   <i data-lucide="shield-check" stroke-width="1.5" class="w-6 h-6"></i>
               </div>
               <div>
-                  <p class="text-sm text-gray-500 font-medium">Proceso</p>
+                  <p class="text-sm text-slate-700 font-medium">Proceso</p>
                   <p class="text-[#050b14] font-semibold">100% Seguro</p>
               </div>
           </div>
@@ -148,7 +143,7 @@
                 <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-6 text-[#171269]">
                     Pago en Cajero Institucional
                 </h2>
-                <p class="text-lg text-gray-700 mb-10 leading-relaxed">
+                <p class="text-lg text-slate-800 mb-10 leading-relaxed">
                     Nuestra institución agiliza tus procesos de pago, ofreciéndote un entorno seguro, rápido y de calidad directamente en nuestras instalaciones.
                 </p>
 
@@ -159,7 +154,7 @@
                             <i data-lucide="id-card" stroke-width="1.5" class="w-6 h-6"></i>
                         </div>
                         <h3 class="font-medium text-lg text-[#050b14] mb-2">1. Matrícula</h3>
-                        <p class="text-gray-500">Ingresa tu matrícula institucional en la pantalla principal del cajero.</p>
+                        <p class="text-slate-700">Ingresa tu matrícula institucional en la pantalla principal del cajero.</p>
                     </div>
                     <!-- Tarjeta Paso 2 -->
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
@@ -167,7 +162,7 @@
                             <i data-lucide="file-text" stroke-width="1.5" class="w-6 h-6"></i>
                         </div>
                         <h3 class="font-medium text-lg text-[#050b14] mb-2">2. Concepto</h3>
-                        <p class="text-gray-500">Selecciona el concepto de pago correspondiente a tu trámite o colegiatura.</p>
+                        <p class="text-slate-700">Selecciona el concepto de pago correspondiente a tu trámite o colegiatura.</p>
                     </div>
                     <!-- Tarjeta Paso 3 -->
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
@@ -175,7 +170,7 @@
                             <i data-lucide="banknote" stroke-width="1.5" class="w-6 h-6"></i>
                         </div>
                         <h3 class="font-medium text-lg text-[#050b14] mb-2">3. Monto</h3>
-                        <p class="text-gray-500">Ingresa el monto exacto a pagar en efectivo o mediante tarjeta.</p>
+                        <p class="text-slate-700">Ingresa el monto exacto a pagar en efectivo o mediante tarjeta.</p>
                     </div>
                     <!-- Tarjeta Paso 4 -->
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
@@ -183,7 +178,7 @@
                             <i data-lucide="receipt" stroke-width="1.5" class="w-6 h-6"></i>
                         </div>
                         <h3 class="font-medium text-lg text-[#050b14] mb-2">4. Comprobante</h3>
-                        <p class="text-gray-500">Recibe tu comprobante de pago y consérvalo para cualquier duda o aclaración.</p>
+                        <p class="text-slate-700">Recibe tu comprobante de pago y consérvalo para cualquier duda o aclaración.</p>
                     </div>
                 </div>
             </div>
@@ -252,7 +247,7 @@
     <div class="max-w-3xl mx-auto">
         <div class="text-center mb-16">
             <h2 class="text-3xl font-semibold tracking-tight text-[#171269] mb-4">Preguntas frecuentes</h2>
-            <p class="text-lg text-gray-500">Resuelve tus dudas rápidamente con nuestra información general.</p>
+            <p class="text-lg text-slate-700">Resuelve tus dudas rápidamente con nuestra información general.</p>
         </div>
 
         <div class="space-y-4">
@@ -264,7 +259,7 @@
                         <i data-lucide="chevron-down" stroke-width="1.5" class="w-5 h-5 transition duration-300 group-open:-rotate-180"></i>
                     </div>
                 </summary>
-                <div class="px-6 pb-6 text-gray-700 text-lg leading-relaxed">
+                <div class="px-6 pb-6 text-slate-800 text-lg leading-relaxed">
                     <p>Generalmente, los pagos de colegiatura deben realizarse dentro de los primeros días de cada mes. Te recomendamos consultar el calendario escolar vigente o contactar al departamento de finanzas para conocer las fechas exactas de tu programa.</p>
                 </div>
             </details>
@@ -277,7 +272,7 @@
                         <i data-lucide="chevron-down" stroke-width="1.5" class="w-5 h-5 transition duration-300 group-open:-rotate-180"></i>
                     </div>
                 </summary>
-                <div class="px-6 pb-6 text-gray-700 text-lg leading-relaxed">
+                <div class="px-6 pb-6 text-slate-800 text-lg leading-relaxed">
                     <p>Las transferencias electrónicas suelen reflejarse en un lapso de 24 a 48 horas hábiles. Es indispensable enviar tu comprobante al correo de finanzas para agilizar la validación y registro en tu estado de cuenta.</p>
                 </div>
             </details>
@@ -290,7 +285,7 @@
                         <i data-lucide="chevron-down" stroke-width="1.5" class="w-5 h-5 transition duration-300 group-open:-rotate-180"></i>
                     </div>
                 </summary>
-                <div class="px-6 pb-6 text-gray-700 text-lg leading-relaxed">
+                <div class="px-6 pb-6 text-slate-800 text-lg leading-relaxed">
                     <p>Sí, para solicitar tu factura debes enviar un correo al departamento de contabilidad adjuntando tu comprobante de pago y tu Constancia de Situación Fiscal actualizada, dentro del mismo mes en que realizaste el depósito.</p>
                 </div>
             </details>

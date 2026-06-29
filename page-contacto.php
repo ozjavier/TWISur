@@ -65,7 +65,7 @@
           <h2 class="text-3xl md:text-4xl font-medium tracking-tight text-up-blue-dark leading-tight">
             Atención directa
           </h2>
-          <p class="mt-3 text-base text-slate-600 font-normal">
+          <p class="mt-3 text-base text-slate-800 font-normal">
             ¡Platica con nosotros! Estamos aquí para resolver tus dudas y orientarte en tu proceso.
           </p>
         </div>
@@ -78,7 +78,7 @@
               <h4 class="text-lg font-medium text-up-blue-dark mb-2 tracking-tight">
                 Horarios de atención
               </h4>
-              <div class="space-y-1 text-base text-slate-600 font-normal">
+              <div class="space-y-1 text-base text-slate-800 font-normal">
                 <div class="flex flex-col md:flex-row justify-between gap-1 md:gap-4 max-w-[280px]">
                   <span>Lunes a Viernes</span>
                   <span>9:00 a 17:00 hrs</span>
@@ -91,7 +91,8 @@
             </div>
           </div>
 
-          <!-- Dirección -->
+<!-- Dirección Dinámica -->
+          <?php if ( iup_contact( 'address' ) ) : ?>
           <div class="flex gap-4 items-start">
             <i data-lucide="map-pin" class="w-6 h-6 text-up-blue shrink-0 mt-1" stroke-width="1.5"></i>
             <div>
@@ -99,16 +100,18 @@
                 Dirección
               </h4>
               <p class="text-base text-slate-600 font-normal mb-2">
-                Av. Ferrocarriles 1926 Col. Guadalupe Victoria,<br> 74280 Atlixco, México
+                <?php echo nl2br( esc_html( iup_contact( 'address' ) ) ); ?>
               </p>
-              <a href="#" class="inline-flex items-center text-sm font-medium text-up-blue-dark hover:text-up-green transition-colors group">
+              <a href="https://maps.google.com/?q=<?php echo urlencode( iup_contact( 'address' ) ); ?>" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm font-medium text-up-blue-dark hover:text-up-green transition-colors group">
                 Ver en Google Maps 
                 <i data-lucide="arrow-up-right" class="w-4 h-4 ml-1 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" stroke-width="1.5"></i>
               </a>
             </div>
           </div>
+          <?php endif; ?>
 
-          <!-- Teléfono -->
+          <!-- Teléfono Dinámico -->
+          <?php if ( iup_contact( 'phone' ) ) : ?>
           <div class="flex gap-4 items-start">
             <i data-lucide="phone" class="w-6 h-6 text-up-blue shrink-0 mt-1" stroke-width="1.5"></i>
             <div>
@@ -116,71 +119,88 @@
                 Teléfono
               </h4>
               <p class="text-base text-slate-600 font-normal">
-                244 44 61 425
+                <a href="tel:<?php echo esc_attr( preg_replace( '/[^\d+]/', '', iup_contact( 'phone' ) ) ); ?>" class="hover:text-up-blue transition-colors">
+                  <?php echo esc_html( iup_contact( 'phone' ) ); ?>
+                </a>
               </p>
             </div>
           </div>
+          <?php endif; ?>
 
-<!-- WhatsApp -->
+          <!-- WhatsApp Dinámico -->
+          <?php if ( iup_whatsapp_url() ) : ?>
           <div class="flex gap-4 items-start">
-            <!-- Icono SVG de WhatsApp junto al título -->
-            <svg class="w-6 h-6 text-up-blue shrink-0 mt-1 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
-            </svg>
+            <!-- Icono SVG de WhatsApp general usando la función de tu footer si existe, o el SVG manual si lo prefieres -->
+            <?php 
+            if ( function_exists('iup_whatsapp_svg') ) {
+                echo iup_whatsapp_svg( 'w-6 h-6 text-up-blue shrink-0 mt-1 fill-current' ); 
+            } else {
+                echo '<svg class="w-6 h-6 text-up-blue shrink-0 mt-1 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>';
+            }
+            ?>
             <div>
               <h4 class="text-lg font-medium text-up-blue-dark mb-3 tracking-tight">
                 WhatsApp
               </h4>
-              <a href="#" class="inline-flex items-center gap-2 bg-up-green text-white px-5 py-2.5 rounded-lg font-medium hover:bg-[#20b858] transition-colors shadow-sm shadow-up-green/20">
-                <!-- Icono SVG de WhatsApp dentro del botón -->
-                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
-                </svg>
+              <a href="<?php echo esc_url( iup_whatsapp_url() ); ?>" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-up-green text-white px-5 py-2.5 rounded-lg font-medium hover:bg-[#20b858] transition-colors shadow-sm shadow-up-green/20">
+                <?php 
+                if ( function_exists('iup_whatsapp_svg') ) {
+                    echo iup_whatsapp_svg( 'w-5 h-5 fill-current' ); 
+                } else {
+                    echo '<svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>';
+                }
+                ?>
                 Contáctanos por WhatsApp
               </a>
             </div>
           </div>
+          <?php endif; ?>
 
         </div>
 
         <hr class="border-slate-200/60">
 
         <!-- Redes Sociales -->
-<div class="flex flex-col md:flex-row items-center gap-2 md:gap-4">
+        <div class="flex flex-col md:flex-row items-center gap-2 md:gap-4">
           <h4 class="text-base font-medium text-up-blue-dark tracking-tight">
             Síguenos en redes
           </h4>
-          <div class="flex gap-3">
-            <a href="#" aria-label="Facebook" class="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-up-blue-dark hover:border-up-blue-dark hover:bg-white transition-all shadow-sm">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-            </a>
-            <a href="#" aria-label="Instagram" class="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-up-blue-dark hover:border-up-blue-dark hover:bg-white transition-all shadow-sm">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
-            </a>
-            <a href="#" aria-label="TikTok" class="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-up-blue-dark hover:border-up-blue-dark hover:bg-white transition-all shadow-sm">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.74a4.85 4.85 0 0 1-1.01-.05z"/></svg>
-            </a>
-            <a href="#" aria-label="X" class="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-up-blue-dark hover:border-up-blue-dark hover:bg-white transition-all shadow-sm">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.25 2.25h6.988l4.265 5.638 4.741-5.638Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"></path></svg>
-            </a>
-          </div>
+          <?php
+          iup_render_social_links( array(
+              'wrapper_class' => 'flex gap-3',
+              'link_class'    => 'w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-up-blue-dark hover:border-up-blue-dark hover:bg-white transition-all shadow-sm',
+              'icon_class'    => 'w-4 h-4',
+          ) );
+          ?>
         </div>
 
       </div>
 
       <!-- Columna Derecha: El Formulario de Contacto -->
-      <div class="bg-white rounded-3xl p-6 md:p-10 shadow-2xl relative w-full border border-slate-100 lg:col-span-7">
+      <div class="bg-white rounded-3xl p-6 md:p-10 shadow-2xl relative w-full border border-slate-100 lg:col-span-7" id="Formulario">
         <div class="absolute -top-3 -right-3 w-24 h-24 bg-up-green/30 rounded-full blur-2xl"></div>
 
         <h3 class="text-2xl font-medium tracking-tight text-up-blue-dark mb-2">
           Completa el formulario
         </h3>
-        <p class="text-base text-slate-500 mb-8 font-normal">
+        <p class="text-base text-slate-800 mb-8 font-normal">
           En IUPSUR, estamos aquí para ofrecerte todo el apoyo que necesitas. Completa el formulario a continuación y nos pondremos en contacto contigo lo antes posible.
         </p>
 
-        <form action="#" method="POST" class="space-y-6 relative z-10">
-          
+        <?php $iup_cf_ready = class_exists( 'IUP_Contact_Form' ); ?>
+        <form id="iup-contact-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST" class="space-y-6 relative z-10">
+
+          <?php if ( $iup_cf_ready ) : ?>
+            <?php wp_nonce_field( 'iup_contact_form_nonce', 'iup_cf_nonce' ); ?>
+            <input type="hidden" name="action" value="iup_contact_submit" />
+            <input type="hidden" name="iup_cf_token" value="<?php echo esc_attr( IUP_Contact_Form::make_token() ); ?>" />
+            <!-- Honeypot anti-spam: debe permanecer vacío (oculto para humanos) -->
+            <div class="iup-cf-hp" aria-hidden="true" style="position:absolute !important;left:-9999px !important;top:0;width:1px;height:1px;overflow:hidden;">
+              <label for="iup_cf_website">No llenar este campo</label>
+              <input type="text" id="iup_cf_website" name="iup_cf_website" tabindex="-1" autocomplete="off" value="" />
+            </div>
+          <?php endif; ?>
+
           <!-- Nombre -->
           <div class="space-y-2">
             <label for="nombre" class="block text-base font-medium text-slate-700">
@@ -230,6 +250,7 @@
               <select id="asunto" name="asunto" class="w-full appearance-none bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:border-transparent transition-all cursor-pointer text-slate-900 focus:ring-up-blue" required>
                 <option value="" disabled="" selected="">Selecciona una opción...</option>
                 <option value="informacion">Información general</option>
+                <option value="cita">Agendar cita</option>
                 <option value="admisiones">Admisiones</option>
                 <option value="becas">Becas</option>
                 <option value="otro">Otro</option>
@@ -257,10 +278,30 @@
                 <div class="absolute inset-0 bg-up-blue rounded opacity-0 peer-checked:opacity-100 transition-opacity"></div>
                 <i data-lucide="check" class="w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity z-10" stroke-width="1.5"></i>
               </div>
-              <span class="text-sm text-slate-600 leading-tight font-normal">
+              <span class="text-sm text-slate-800 leading-tight font-normal">
                 He leído y acepto el <a href="#" class="text-up-blue underline underline-offset-2 decoration-slate-300 hover:decoration-up-blue transition-colors">aviso de privacidad</a> en relación al tratamiento de mis datos personales.
               </span>
             </label>
+          </div>
+
+          <!-- Mensaje de estado (éxito / error) -->
+          <?php
+          $iup_state = isset( $_GET['iup_contact'] ) ? sanitize_key( wp_unslash( $_GET['iup_contact'] ) ) : '';
+          $iup_msg   = '';
+          $iup_cls   = '';
+          if ( ! empty( $iup_cf_ready ) ) {
+              $iup_opts = IUP_Contact_Form::get_options();
+              if ( 'ok' === $iup_state ) {
+                  $iup_msg = $iup_opts['success_message'];
+                  $iup_cls = 'bg-up-green/15 text-up-blue-dark border border-up-green/40';
+              } elseif ( 'error' === $iup_state ) {
+                  $iup_msg = $iup_opts['error_message'];
+                  $iup_cls = 'bg-red-50 text-red-700 border border-red-200';
+              }
+          }
+          ?>
+          <div id="iup-cf-status" class="iup-cf-status rounded-xl px-4 py-3 text-base font-medium <?php echo esc_attr( $iup_cls ); ?>" role="status"<?php echo $iup_msg ? '' : ' hidden'; ?>>
+            <?php echo esc_html( $iup_msg ); ?>
           </div>
 
           <!-- Botón de Envío -->
@@ -297,11 +338,10 @@
               </p>
             </div>
             <a
-              href="#"
+              href="#Formulario"
               class="shrink-0 inline-flex items-center gap-2 bg-up-blue-dark text-white px-8 py-4 rounded-xl font-medium hover:bg-slate-900 hover:shadow-xl transition-all text-lg"
             >
               Agendar visita
-              <i data-lucide="calendar" class="w-5 h-5" stroke-width="1.5"></i>
             </a>
           </div>
         </div>
